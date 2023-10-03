@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using MeetMastersAM.Shared.Model;
+@inject HttpClient Client
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +9,29 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@if (benefits == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var benefits in benefits)
+    {
+        <div>
+            <p>@benefits.BenefitId @benefits.DescrizioneBenefit</p>
+        </div>
+    }
+}
+
+
+@code {
+    private List<Benefits>? benefits = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        benefits = await Client.GetFromJsonAsync<List<Benefits>>("api/Benefits/");
+    }
+
+
+}

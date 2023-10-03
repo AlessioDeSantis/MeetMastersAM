@@ -22,6 +22,7 @@ builder.Services.AddScoped<IBenefitRepository, BenefitRepository>();
 builder.Services.AddScoped<IServiceBase<Benefits>, ServicesBase<Benefits>>();
 builder.Services.AddScoped<IBenefitsServices, BenefitsService>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
