@@ -1,4 +1,7 @@
 using MeetMastersAM.Server.Data;
+using MeetMastersAM.Server.Repository;
+using MeetMastersAM.Server.Services;
+using MeetMastersAM.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,11 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
+
+builder.Services.AddScoped<IRepositoryBase<Benefits>, RepositoryBase<Benefits>>();
+builder.Services.AddScoped<IBenefitRepository, BenefitRepository>();
+builder.Services.AddScoped<IServiceBase<Benefits>, ServicesBase<Benefits>>();
+builder.Services.AddScoped<IBenefitsServices, BenefitsService>();
 
 var app = builder.Build();
 
@@ -19,6 +28,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
