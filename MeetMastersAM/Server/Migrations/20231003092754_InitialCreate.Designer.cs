@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeetMastersAM.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230930151727_InitialCreate")]
+    [Migration("20231003092754_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -574,12 +574,10 @@ namespace MeetMastersAM.Server.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("ReferenteNavigationDipendenteId")
-                        .HasColumnType("int");
-
                     b.HasKey("SedeId");
 
-                    b.HasIndex("ReferenteNavigationDipendenteId");
+                    b.HasIndex("ReferenteId")
+                        .IsUnique();
 
                     b.ToTable("Sedi");
                 });
@@ -878,13 +876,13 @@ namespace MeetMastersAM.Server.Migrations
 
             modelBuilder.Entity("MeetMastersAM.Shared.Model.Dipendenti", b =>
                 {
-                    b.HasOne("MeetMastersAM.Shared.Model.Sedi", "SedeNavigation")
+                    b.HasOne("MeetMastersAM.Shared.Model.Sedi", "LuogoDiLavoroSedeNavigation")
                         .WithMany("Dipendenti")
                         .HasForeignKey("SedeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("SedeNavigation");
+                    b.Navigation("LuogoDiLavoroSedeNavigation");
                 });
 
             modelBuilder.Entity("MeetMastersAM.Shared.Model.Dipendenti_Skills", b =>
@@ -950,9 +948,9 @@ namespace MeetMastersAM.Server.Migrations
             modelBuilder.Entity("MeetMastersAM.Shared.Model.Sedi", b =>
                 {
                     b.HasOne("MeetMastersAM.Shared.Model.Dipendenti", "ReferenteNavigation")
-                        .WithMany()
-                        .HasForeignKey("ReferenteNavigationDipendenteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("ReferenteSedeNavigation")
+                        .HasForeignKey("MeetMastersAM.Shared.Model.Sedi", "ReferenteId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ReferenteNavigation");
@@ -986,6 +984,9 @@ namespace MeetMastersAM.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Dipendenti_Skills");
+
+                    b.Navigation("ReferenteSedeNavigation")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MeetMastersAM.Shared.Model.LivelliContratti", b =>

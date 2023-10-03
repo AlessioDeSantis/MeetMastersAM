@@ -67,10 +67,15 @@ namespace MeetMastersAM.Server.Data
 
             modelBuilder.Entity<Dipendenti>(entity =>
             {
-                entity.HasOne(p => p.SedeNavigation)
+                entity.HasOne(p => p.LuogoDiLavoroSedeNavigation)
                       .WithMany(p => p.Dipendenti)
                       .HasForeignKey(p => p.SedeId)
                       .IsRequired()
+                      .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.ReferenteSedeNavigation)
+                      .WithOne(p => p.ReferenteNavigation)
+                      .HasForeignKey<Sedi>(p => p.ReferenteId)
                       .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(c => c.ContrattoNavigation)
@@ -79,7 +84,7 @@ namespace MeetMastersAM.Server.Data
                       .OnDelete(DeleteBehavior.NoAction);
             });
 
-            
+
         }
     }
 }

@@ -42,7 +42,9 @@ namespace MeetMastersAM.Shared.Model
 
         public virtual Contratti ContrattoNavigation { get; set; } = null!;
 
-        public virtual Sedi SedeNavigation { get; set; } = null!;
+        public virtual Sedi LuogoDiLavoroSedeNavigation { get; set; } = null!;
+
+        public virtual Sedi ReferenteSedeNavigation { get; set; } = null!;
 
         public virtual ICollection<Dipendenti_Skills>? Dipendenti_Skills { get; set; } = new List<Dipendenti_Skills>();
 

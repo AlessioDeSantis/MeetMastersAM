@@ -512,18 +512,16 @@ namespace MeetMastersAM.Server.Migrations
                     IndirizzoSede = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RecapitoSede = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmailSede = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReferenteId = table.Column<int>(type: "int", nullable: false),
-                    ReferenteNavigationDipendenteId = table.Column<int>(type: "int", nullable: false)
+                    ReferenteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sedi", x => x.SedeId);
                     table.ForeignKey(
-                        name: "FK_Sedi_Dipendenti_ReferenteNavigationDipendenteId",
-                        column: x => x.ReferenteNavigationDipendenteId,
+                        name: "FK_Sedi_Dipendenti_ReferenteId",
+                        column: x => x.ReferenteId,
                         principalTable: "Dipendenti",
-                        principalColumn: "DipendenteId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "DipendenteId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -664,9 +662,10 @@ namespace MeetMastersAM.Server.Migrations
                 column: "NazioneNavigationNazioneId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sedi_ReferenteNavigationDipendenteId",
+                name: "IX_Sedi_ReferenteId",
                 table: "Sedi",
-                column: "ReferenteNavigationDipendenteId");
+                column: "ReferenteId",
+                unique: true);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BenefitsContratti_Contratti_ContrattiContrattoId",
@@ -717,7 +716,7 @@ namespace MeetMastersAM.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Sedi_Dipendenti_ReferenteNavigationDipendenteId",
+                name: "FK_Sedi_Dipendenti_ReferenteId",
                 table: "Sedi");
 
             migrationBuilder.DropTable(
