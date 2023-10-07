@@ -15,17 +15,21 @@ namespace MeetMastersAM.Shared.Model
         [Required(ErrorMessage = "Questo campo è richiesto!")]
         [MaxLength(50, ErrorMessage = "Hai superato il numero massimo di caratteri(50)")]
         [RegularExpression("^[A-Za-z\\s]+$", ErrorMessage = "Inserire solo lettere e spazi.")]
+        [Display(Name = "Nome sede")]
         public string? DescrizioneSede { get; set; }
 
         [Required(ErrorMessage = "Questo campo è richiesto!")]
+        [Display(Name = "Indirizzo")]
         public string? IndirizzoSede { get; set; }
 
         [Required(ErrorMessage = "Questo campo è richiesto!")]
         [Phone(ErrorMessage ="Il formato non è corretto!")]
+        [Display(Name = "Telefono")]
         public string? RecapitoSede { get; set; }
 
         [Required(ErrorMessage = "Questo campo è richiesto!")]
         [EmailAddress(ErrorMessage = "Il formato non è corretto!")]
+        [Display(Name = "Email")]
         public string? EmailSede { get; set; }
 
         [Required(ErrorMessage = "Questo campo è richiesto!")]

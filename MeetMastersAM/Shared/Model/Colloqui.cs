@@ -14,12 +14,15 @@ namespace MeetMastersAM.Shared.Model
 
         [Required(ErrorMessage = "Il campo è richiesto")]
         [DataType(DataType.Date)]
+        [Display(Name = "Data colloquio")]
         public DateTime DataColloquio { get; set; }
 
         [Required(ErrorMessage = "Il campo è richiesto")]
+        [Display(Name = "Sede")]
         public int SedeId { get; set; }
 
         [Required(ErrorMessage = "Il campo è richiesto")]
+        [Display(Name = "Tipo colloquio")]
         public int TipoColloquioId { get; set; }
 
         [Required(ErrorMessage = "Il campo è richiesto")]
@@ -27,8 +30,13 @@ namespace MeetMastersAM.Shared.Model
 
         [Required]
         public int DipendenteId { get; set; }
+
         public int? ReferenteId { get; set; }
+
+        [Display(Name = "Valutazione")]
         public int? Valutazione { get; set; }
+
+        [Display(Name ="Note")]
         public string? Note { get; set; }
 
         public virtual Sedi SedeNavigation { get; set; } = null!;

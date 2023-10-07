@@ -11,6 +11,8 @@ namespace MeetMastersAM.Shared.Model
     {
         [Key]
         public int ProvinciaId { get; set; }
+
+        [Display(Name = "Province")]
         public string? ProvinciaNome { get; set; }
         public int RegioneId { get; set; }
 

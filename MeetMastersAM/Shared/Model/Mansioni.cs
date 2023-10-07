@@ -13,6 +13,7 @@ namespace MeetMastersAM.Shared.Model
         public int MansioneId { get; set; }
 
         [Required]
+        [Display(Name = "Mansione")]
         public string? NomeMansione { get; set; }
 
         public virtual ICollection<Esperienze> Esperienze { get; set; } = new List<Esperienze>();

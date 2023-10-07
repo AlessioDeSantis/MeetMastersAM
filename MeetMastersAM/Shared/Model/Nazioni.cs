@@ -13,6 +13,7 @@ namespace MeetMastersAM.Shared.Model
         public int NazioneId { get; set; }
 
         [Required]
+        [Display(Name = "Nazione")]
         public string? NazioneNome { get; set; }
 
         public virtual ICollection<Regioni>? Regioni { get; set; } = new List<Regioni>();

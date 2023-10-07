@@ -11,6 +11,9 @@ namespace MeetMastersAM.Shared.Model
     {
         [Key]
         public int ComuneId { get; set; }
+
+        [Display(Name = "Comune")]
+        [Required]
         public string? NomeComune { get; set; }
         public int ProvinciaId { get; set; }
         public virtual Province ProvinciaNavigation { get; set; } = null!;

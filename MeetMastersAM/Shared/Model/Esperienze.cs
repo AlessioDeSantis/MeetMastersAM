@@ -13,10 +13,12 @@ namespace MeetMastersAM.Shared.Model
 
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Data di inizio")]
         public DateTime DataInizio { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [Display(Name = "Data fine")]
         public DateTime DataFine { get; set; }
 
         

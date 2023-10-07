@@ -12,6 +12,7 @@ namespace MeetMastersAM.Shared.Model
         [Key]
         public int? LivelloContrattoId { get; set; }
         [Required]
+        [Display(Name = "Livello Contratto")]
         public string? DescrizioneLivelloContratto { get; set; }
         public virtual ICollection<Contratti> Contratti { get; set; } = new List<Contratti>();
 

@@ -13,6 +13,7 @@ namespace MeetMastersAM.Shared.Model
         public int ContrattoId { get; set; }
 
         [Required]
+        [Display(Name = "Livello contratto")]
         public int LivelloContrattoId { get; set; }
 
         [Required]
