@@ -4,25 +4,34 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-title my-5">
 
-Welcome to your new app.
+    <div class="row">       
 
-<SurveyPrompt Title="How is Blazor working for you?" />
-
-@if (benefits == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    @foreach (var benefits in benefits)
-    {
-        <div>
-            <p>@benefits.BenefitId @benefits.DescrizioneBenefit</p>
+        <div class="col-12 my-5">
+            <h1 class="title">WEB HUB</h1>
+            <h3>Il tuo portale verso il futuro</h3>
         </div>
-    }
-}
+        
+    </div>
+    
+</div>
+
+<section class="mt-5 d-flex">
+
+    <div class="row justify-content-around w-100">
+        <div class="col-4">
+            <img class="coders1 p-2" src="image/coders_1.png" />
+        </div>
+        <div class="col-4">
+            <img class="coders1 p-2" src="image/coders_2.png" />
+        </div>
+        <div class="col-4">
+            <img class="coders1 p-2" src="image/coders_1.png" />
+        </div>
+    </div>
+
+</section>
 
 
 @code {
