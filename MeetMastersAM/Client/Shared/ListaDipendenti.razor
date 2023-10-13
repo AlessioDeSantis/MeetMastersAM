@@ -1,0 +1,55 @@
+﻿@using MeetMastersAM.Shared.Model
+
+<h2>Dipendenti</h2>
+<button class="btn btn-primary mb-4" @onclick="OnCrea">
+    Crea Dipendente
+</button>
+<table class="table">
+    <tr>
+        <th>Nome</th>
+        <th>Cognome</th>
+        <th>Indirizzo</th>
+        <th>Recapito</th>
+        <th>Data di Nascita</th>
+        <th>Genere</th>
+        <th>Sede</th>
+        <th>Referente?</th>
+        <th>Mansione</th>
+    </tr>
+    @foreach (var dipendente in listaDipendente)
+    {
+        <tr>
+            <td>@dipendente.NomeDipendente</td>
+            <td>@dipendente.CognomeDipendente</td>
+            <td>@dipendente.IndirizzoDipendente</td>
+            <td>@dipendente.RecapitoDipendente</td>
+            <td>@dipendente.DataNascitaDipendente.ToShortDateString()</td>
+            <td>@dipendente.GenereDipendente</td>
+            <td>@dipendente.SedeId</td>
+            <td>@dipendente.IsReferent</td>
+            <td>@dipendente.Mansioni</td> <!-- Assicurati che Dipendenti abbia una proprietà Mansione -->
+            <th>
+                <button class="btn btn-warning" @onclick="() => OnModifica.InvokeAsync(dipendente)">
+                    Modifica
+                </button>
+                <button class="btn btn-danger" @onclick="() => OnElimina.InvokeAsync(dipendente)">
+                    Elimina
+                </button>
+            </th>
+        </tr>
+    }
+</table>
+
+@code {
+    [Parameter]
+    public List<Dipendenti> listaDipendente { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback OnCrea { get; set; }
+
+    [Parameter]
+    public EventCallback<Dipendenti> OnModifica { get; set; }
+
+    [Parameter]
+    public EventCallback<Dipendenti> OnElimina { get; set; }
+}

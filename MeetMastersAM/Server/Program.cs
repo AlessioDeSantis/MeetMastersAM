@@ -21,6 +21,12 @@ builder.Services.AddScoped<IRepositoryBase<Benefits>, RepositoryBase<Benefits>>(
 builder.Services.AddScoped<IBenefitRepository, BenefitRepository>();
 builder.Services.AddScoped<IServiceBase<Benefits>, ServicesBase<Benefits>>();
 builder.Services.AddScoped<IBenefitsServices, BenefitsService>();
+builder.Services.AddScoped<IRepositoryBase<Dipendenti>, RepositoryBase<Dipendenti>>();
+builder.Services.AddScoped<IDipendentiRepository,  DipendentiRepository>();
+builder.Services.AddScoped<IServiceBase<Dipendenti>, ServicesBase<Dipendenti>>();
+builder.Services.AddScoped<IDipendentiService, DipendentiService>();
+
+
 
 
 var app = builder.Build();

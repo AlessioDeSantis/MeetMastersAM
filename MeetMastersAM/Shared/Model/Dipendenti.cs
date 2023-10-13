@@ -35,8 +35,8 @@ namespace MeetMastersAM.Shared.Model
 
         public string? GenereDipendente { get; set; }
 
-        [Required(ErrorMessage = "Questo campo è richiesto!")]
-        public int SedeId { get; set; }
+        /*[Required(ErrorMessage = "Questo campo è richiesto!")]*/
+        public int? SedeId { get; set; }
 
         public bool IsReferent {  get; set; }
 

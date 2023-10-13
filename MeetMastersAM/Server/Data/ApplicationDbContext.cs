@@ -70,7 +70,7 @@ namespace MeetMastersAM.Server.Data
                 entity.HasOne(p => p.LuogoDiLavoroSedeNavigation)
                       .WithMany(p => p.Dipendenti)
                       .HasForeignKey(p => p.SedeId)
-                      .IsRequired()
+                      /*.IsRequired()*/
                       .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(p => p.ReferenteSedeNavigation)

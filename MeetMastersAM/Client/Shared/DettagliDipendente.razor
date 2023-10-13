@@ -1,0 +1,86 @@
+﻿@using MeetMastersAM.Shared.Model
+
+
+<h3>Dipendente</h3>
+
+<EditForm Model="@dipendenti"
+          OnValidSubmit="OnSalva" class="col-6">
+
+          <DataAnnotationsValidator/>
+          <ValidationSummary/>
+
+    <div class="form-group mb-3">
+        <label for="nome">Nome:</label>
+        <InputText id="nome" @bind-Value="dipendenti!.NomeDipendente" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="cognome">Cognome:</label>
+        <InputText id="cognome" @bind-Value="dipendenti!.CognomeDipendente" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="indirizzo">Indirizzo:</label>
+        <InputText id="indirizzo" @bind-Value="dipendenti!.IndirizzoDipendente" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="recapito">Recapito:</label>
+        <InputText typeof="phone" id="recapito" @bind-Value="dipendenti!.RecapitoDipendente" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="datanascita">Data di Nascita:</label>
+        <InputDate id="datanascita" @bind-Value="dipendenti!.DataNascitaDipendente" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="genere">Genere:</label>
+        <InputSelect id="genere" @bind-Value="dipendenti!.GenereDipendente" class="form-control">
+            <option value="1">Uomo</option>
+            <option value="2">Donna</option>
+            <option value="3">Altro</option>
+        </InputSelect>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="sede">Sede:</label>
+        <InputSelect id="sede" @bind-Value="dipendenti!.SedeId" class="form-control">
+            @foreach (var sede in sedi)
+            {
+                <option value="@sede!.SedeId">@sede!.DescrizioneSede</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="referente">Sei un referente:</label>
+        <InputCheckbox id="referente" @bind-Value="dipendenti!.IsReferent" class="form-control" />
+    </div>
+
+
+    @* <div class="form-group">
+    <label for="mansione">Mansione:</label>
+    <InputText id="mansione" @bind-Value="dipendenti!.Mansioni" class="form-control" />
+    </div> *@
+
+
+
+
+    <button type="submit" class="btn btn-primary">Salva</button>
+    <button type="button" class="btn btn-warning" @onclick="OnAnnulla">Annulla</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Dipendenti? dipendenti { get; set; }
+
+    [Parameter]
+    public List<Sedi> sedi { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback OnSalva { get; set; }
+
+    [Parameter]
+    public EventCallback OnAnnulla { get; set; }
+}

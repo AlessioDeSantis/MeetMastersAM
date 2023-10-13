@@ -1,0 +1,77 @@
+﻿@page "/dipendentilista"
+@inject HttpClient Client
+@using MeetMastersAM.Shared.Model
+@using MeetMastersAM.Client.Shared
+
+<h2>Gestione Dipendenti</h2>
+
+@if (!isAdd)
+{
+    <div>
+        <ListaDipendenti listaDipendente="_dipendenti" OnCrea="CreaDipendente" OnElimina="EliminaDipendente" OnModifica="ModificaDipendente" />
+    </div>
+}
+else
+{
+    <div class="row">
+        <DettagliDipendente dipendenti="DipendenteCorrente" sedi="ListaSedi" OnSalva="() => SalvaDipendente(DipendenteCorrente)" OnAnnulla="AnnullaOperazione" />
+    </div>
+}
+
+@code {
+    private List<Dipendenti> _dipendenti = new();
+    public Dipendenti DipendenteCorrente = new();
+    private bool isAdd;
+
+    public List<Dipendenti> ListaDipendenti { get; set; } = new List<Dipendenti>();
+
+    public List<Sedi> ListaSedi { get; set; } = new List<Sedi>();
+
+
+
+    public async Task CreaDipendente()
+    {
+        // var response = await Client.PostAsJsonAsync("dipendenti/aggiungi", DipendenteCorrente);
+        isAdd = true;
+
+    }
+
+    public async Task ModificaDipendente(Dipendenti dipendente)
+    {
+        await Task.Delay(0); // Puoi rimuovere questa riga se l'operazione non è asincrona
+        this.DipendenteCorrente = dipendente;
+    }
+
+    public async Task SalvaDipendente(Dipendenti dipendente)
+    {
+
+        if (dipendente.DipendenteId == 0)
+        {
+            // Aggiungi il nuovo dipendente
+            var response = await Client.PostAsJsonAsync("calcoli/aggiungi", dipendente);
+            dipendente = new Dipendenti();
+            
+        }
+        else
+        {
+            // Modifica il dipendente esistente
+            var dipendenteDaModificare = ListaDipendenti.Single(x => x.DipendenteId == dipendente.DipendenteId);
+            // Aggiorna i dati del dipendenteDaModificare
+        }
+        this.DipendenteCorrente = null!;
+    }
+
+    public async Task AnnullaOperazione()
+    {
+        await Task.Delay(0); // Puoi rimuovere questa riga se l'operazione non è asincrona
+        this.DipendenteCorrente = null!;
+    }
+
+    public async Task EliminaDipendente(Dipendenti dipendente)
+    {
+        await Task.Delay(0); // Puoi rimuovere questa riga se l'operazione non è asincrona
+        ListaDipendenti.Remove(dipendente);
+    }
+
+}
+
