@@ -1,46 +1,53 @@
 ﻿@page "/dipendentilista"
 @inject HttpClient Client
+@inject NavigationManager navigation
 @using MeetMastersAM.Shared.Model
 @using MeetMastersAM.Client.Shared
 
-<h2>Gestione Dipendenti</h2>
+
 
 @if (!isAdd)
 {
     <div>
-        <ListaDipendenti listaDipendente="_dipendenti" OnCrea="CreaDipendente" OnElimina="EliminaDipendente" OnModifica="ModificaDipendente" />
+        <ListaDipendenti listaDipendente="_dipendenti" OnCrea="() => isAdd = true" OnElimina="EliminaDipendente" OnModifica="ModificaDipendente" />
     </div>
 }
 else
 {
+    <h2>@TitlePage Dipendente</h2>
     <div class="row">
-        <DettagliDipendente dipendenti="DipendenteCorrente" sedi="ListaSedi" OnSalva="() => SalvaDipendente(DipendenteCorrente)" OnAnnulla="AnnullaOperazione" />
+        <DettagliDipendente dipendenti="DipendenteCorrente" sedi="ListaSedi" OnSalva="() => SalvaDipendente(DipendenteCorrente)" OnAnnulla="AnnullaOperazione" Title="TitlePage" dipendenteId="_dipendenteId" />
     </div>
 }
 
 @code {
-    private List<Dipendenti> _dipendenti = new();
-    public Dipendenti DipendenteCorrente = new();
+    private List<Dipendenti>? _dipendenti = new();
+    public int _dipendenteId { get; set; }
+    public Dipendenti? DipendenteCorrente = new();
     private bool isAdd;
+    protected string TitlePage = "Aggiungi";
 
     public List<Dipendenti> ListaDipendenti { get; set; } = new List<Dipendenti>();
 
     public List<Sedi> ListaSedi { get; set; } = new List<Sedi>();
 
-
-
-    public async Task CreaDipendente()
+    protected override async Task OnInitializedAsync()
     {
-        // var response = await Client.PostAsJsonAsync("dipendenti/aggiungi", DipendenteCorrente);
-        isAdd = true;
-
+        await base.OnInitializedAsync();
+        await GetDipendenti();
     }
 
-    public async Task ModificaDipendente(Dipendenti dipendente)
+    public async Task GetDipendenti()
     {
-        await Task.Delay(0); // Puoi rimuovere questa riga se l'operazione non è asincrona
-        this.DipendenteCorrente = dipendente;
+        _dipendenti = await Client.GetFromJsonAsync<List<Dipendenti>>("api/dipendenti/details");
     }
+
+    public async Task<Dipendenti> GetDipendente(int id)
+    {
+        return await Client.GetFromJsonAsync<Dipendenti>($"api/dipendenti/{id}");
+    }
+
+
 
     public async Task SalvaDipendente(Dipendenti dipendente)
     {
@@ -48,17 +55,16 @@ else
         if (dipendente.DipendenteId == 0)
         {
             // Aggiungi il nuovo dipendente
-            var response = await Client.PostAsJsonAsync("calcoli/aggiungi", dipendente);
-            dipendente = new Dipendenti();
-            
+            await Client.PostAsJsonAsync("api/dipendenti/aggiungi", dipendente);
         }
         else
         {
-            // Modifica il dipendente esistente
-            var dipendenteDaModificare = ListaDipendenti.Single(x => x.DipendenteId == dipendente.DipendenteId);
+            await Client.PutAsJsonAsync($"api/dipendenti/modifica/{dipendente.DipendenteId}", dipendente);
             // Aggiorna i dati del dipendenteDaModificare
         }
-        this.DipendenteCorrente = null!;
+        dipendente = new Dipendenti();
+        isAdd = false;
+        await GetDipendenti();
     }
 
     public async Task AnnullaOperazione()
@@ -67,11 +73,16 @@ else
         this.DipendenteCorrente = null!;
     }
 
-    public async Task EliminaDipendente(Dipendenti dipendente)
+    public async Task EliminaDipendente(int id)
     {
-        await Task.Delay(0); // Puoi rimuovere questa riga se l'operazione non è asincrona
-        ListaDipendenti.Remove(dipendente);
+        await Client.DeleteAsync($"api/dipendenti/{id}");
+        await GetDipendenti();
     }
 
+    public async Task ModificaDipendente(int id)
+    {
+        DipendenteCorrente = await GetDipendente(id);
+        isAdd = true;
+    }
 }
 

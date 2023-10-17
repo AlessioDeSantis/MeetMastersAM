@@ -13,6 +13,13 @@ public class DipendentiController : ControllerBase
         _dipendentiService = dipendentiService;
     }
 
+    [HttpGet("details")]
+    public async Task<IActionResult> GetDetails()
+    {
+        var items = await _dipendentiService.GetDetailsDipendenti();
+        return Ok(items);
+    }
+
     [HttpGet]
     public async Task<IActionResult> Index()
     {
@@ -38,7 +45,7 @@ public class DipendentiController : ControllerBase
         return CreatedAtAction("Indice", new { id = dipendenti.DipendenteId }, dipendenti);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("modifica/{id}")]
     public async Task<IActionResult> Put(int id, Dipendenti dipendenti)
     {
         if (id != dipendenti.DipendenteId)

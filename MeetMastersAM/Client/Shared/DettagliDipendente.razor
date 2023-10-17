@@ -1,13 +1,12 @@
-﻿@using MeetMastersAM.Shared.Model
+﻿@page "/aggiungi"
+@using MeetMastersAM.Shared.Model
 
-
-<h3>Dipendente</h3>
 
 <EditForm Model="@dipendenti"
           OnValidSubmit="OnSalva" class="col-6">
 
-          <DataAnnotationsValidator/>
-          <ValidationSummary/>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
     <div class="form-group mb-3">
         <label for="nome">Nome:</label>
@@ -74,6 +73,12 @@
 @code {
     [Parameter]
     public Dipendenti? dipendenti { get; set; }
+
+    [Parameter]
+    public int dipendenteId { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
 
     [Parameter]
     public List<Sedi> sedi { get; set; } = null!;

@@ -40,10 +40,10 @@ namespace MeetMastersAM.Shared.Model
 
         public bool IsReferent {  get; set; }
 
-        public virtual Contratti ContrattoNavigation { get; set; } = null!;
+        public virtual Contratti? ContrattoNavigation { get; set; } = null!;
 
-        public virtual Sedi LuogoDiLavoroSedeNavigation { get; set; } = null!;
-        public virtual Sedi ReferenteSedeNavigation { get; set; } = null!;
+        public virtual Sedi? LuogoDiLavoroSedeNavigation { get; set; } = null!;
+        public virtual Sedi? ReferenteSedeNavigation { get; set; } = null!;
 
         public virtual ICollection<Dipendenti_Skills>? Dipendenti_Skills { get; set; } = new List<Dipendenti_Skills>();
 

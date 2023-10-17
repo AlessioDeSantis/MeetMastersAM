@@ -27,12 +27,19 @@
             <td>@dipendente.GenereDipendente</td>
             <td>@dipendente.SedeId</td>
             <td>@dipendente.IsReferent</td>
-            <td>@dipendente.Mansioni</td> <!-- Assicurati che Dipendenti abbia una proprietà Mansione -->
+            <td>
+                @foreach (var m in dipendente.Mansioni!)
+                {
+                    @m.NomeMansione
+
+                    <span>, </span>
+                }
+            </td>
             <th>
-                <button class="btn btn-warning" @onclick="() => OnModifica.InvokeAsync(dipendente)">
+                <button class="btn btn-warning" @onclick="() => OnModifica.InvokeAsync(dipendente.DipendenteId)">
                     Modifica
                 </button>
-                <button class="btn btn-danger" @onclick="() => OnElimina.InvokeAsync(dipendente)">
+                <button class="btn btn-danger" @onclick="() => OnElimina.InvokeAsync(dipendente.DipendenteId)">
                     Elimina
                 </button>
             </th>
@@ -48,8 +55,8 @@
     public EventCallback OnCrea { get; set; }
 
     [Parameter]
-    public EventCallback<Dipendenti> OnModifica { get; set; }
+    public EventCallback<int> OnModifica { get; set; }
 
     [Parameter]
-    public EventCallback<Dipendenti> OnElimina { get; set; }
+    public EventCallback<int> OnElimina { get; set; }
 }
