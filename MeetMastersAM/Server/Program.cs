@@ -25,6 +25,10 @@ builder.Services.AddScoped<IRepositoryBase<Dipendenti>, RepositoryBase<Dipendent
 builder.Services.AddScoped<IDipendentiRepository,  DipendentiRepository>();
 builder.Services.AddScoped<IServiceBase<Dipendenti>, ServicesBase<Dipendenti>>();
 builder.Services.AddScoped<IDipendentiService, DipendentiService>();
+builder.Services.AddScoped<IRepositoryBase<Sedi>, RepositoryBase<Sedi>>();
+builder.Services.AddScoped<ISediRepository, SediRepository>();
+builder.Services.AddScoped<IServiceBase<Sedi>, ServicesBase<Sedi>>();
+builder.Services.AddScoped<ISediService, SediService>();
 
 
 

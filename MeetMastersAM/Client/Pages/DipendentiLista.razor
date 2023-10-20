@@ -16,12 +16,13 @@ else
 {
     <h2>@TitlePage Dipendente</h2>
     <div class="row">
-        <DettagliDipendente dipendenti="DipendenteCorrente" sedi="ListaSedi" OnSalva="() => SalvaDipendente(DipendenteCorrente)" OnAnnulla="AnnullaOperazione" Title="TitlePage" dipendenteId="_dipendenteId" />
+        <DettagliDipendente dipendenti="DipendenteCorrente" Sedi="_sedi" OnSalva="() => SalvaDipendente(DipendenteCorrente)" OnAnnulla="AnnullaOperazione" Title="TitlePage" dipendenteId="_dipendenteId" />
     </div>
 }
 
 @code {
     private List<Dipendenti>? _dipendenti = new();
+    private List<Sedi>? _sedi = new();
     public int _dipendenteId { get; set; }
     public Dipendenti? DipendenteCorrente = new();
     private bool isAdd;
@@ -35,11 +36,17 @@ else
     {
         await base.OnInitializedAsync();
         await GetDipendenti();
+        await GetSedi();
     }
 
     public async Task GetDipendenti()
     {
         _dipendenti = await Client.GetFromJsonAsync<List<Dipendenti>>("api/dipendenti/details");
+    }
+
+    public async Task GetSedi()
+    {
+        _sedi = await Client.GetFromJsonAsync<List<Sedi>>("api/Sedi/lista");
     }
 
     public async Task<Dipendenti> GetDipendente(int id)
@@ -65,6 +72,8 @@ else
         dipendente = new Dipendenti();
         isAdd = false;
         await GetDipendenti();
+        await GetSedi();
+
     }
 
     public async Task AnnullaOperazione()

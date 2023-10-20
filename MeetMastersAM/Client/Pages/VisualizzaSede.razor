@@ -1,0 +1,15 @@
+﻿@page "/visualizzaSede/{id:int}"
+@using MeetMastersAM.Shared.Model;
+@inject HttpClient Client
+
+<h3>Visualizza Sede di @_sede.DescrizioneSede</h3>
+
+
+
+@code {
+    private Sedi? _sede { get; set; } = new();
+
+    [Parameter]
+    public int Id { get; set; }
+
+}

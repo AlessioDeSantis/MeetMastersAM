@@ -1,4 +1,8 @@
-﻿
+﻿@using MeetMastersAM.Shared.Model
+@using BlazorBootstrap
+@inject HttpClient Client
+@inject NavigationManager Navigation
+
 
 <nav class="navbar navbar-expand-lg bg-water shadow" @onclick="ToggleNavMenu">
     <div class="container-fluid">
@@ -18,6 +22,20 @@
                 </NavLink>
             </div>
             <div class="nav-item px-3">
+               <Dropdown>
+    <DropdownToggleButton Color="ButtonColor.Secondary">Sedi</DropdownToggleButton>
+        <DropdownMenu>
+
+            @foreach(var item in _sedi)
+                        {
+                            <DropdownItem @onclick="() => VisualizzaSede(item.SedeId)">@item.DescrizioneSede</DropdownItem>
+                        }
+                        <hr />
+                        <DropdownItem To="visualizzaSede" Type="ButtonType.Link">Aggiungi Sede</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+            </div>
+            <div class="nav-item px-3">
                 <NavLink class="nav-link" href="fetchdata">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
                 </NavLink>
@@ -29,10 +47,41 @@
 @code {
     private bool collapseNavMenu = true;
 
+    private List<Sedi>? _sedi = new();
+
+    private Sedi? Sede = new();
+
+    private List<Sedi>? listaSedi { get; set; } = new List<Sedi>();
+
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetSedi();
+    }
+
+    public async Task GetSedi()
+    {
+        _sedi = await Client.GetFromJsonAsync<List<Sedi>>("api/sedi/lista");
+    }
+
+    public async Task<Sedi> GetSediId(int id)
+    {
+        return await Client.GetFromJsonAsync<Sedi>($"api/Sedi/{id}");
+    }
+
+    public async Task VisualizzaSede(int id)
+    {
+        Sede = await GetSediId(id);
+        var url = $"visualizzaSede/{id}";
+        Navigation.NavigateTo(url);
+    }
+
+
 }

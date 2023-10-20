@@ -45,7 +45,7 @@
     <div class="form-group mb-3">
         <label for="sede">Sede:</label>
         <InputSelect id="sede" @bind-Value="dipendenti!.SedeId" class="form-control">
-            @foreach (var sede in sedi)
+            @foreach (var sede in Sedi)
             {
                 <option value="@sede!.SedeId">@sede!.DescrizioneSede</option>
             }
@@ -53,8 +53,8 @@
     </div>
 
     <div class="form-group mb-3">
-        <label for="referente">Sei un referente?:</label>
-        <InputCheckbox id="referente" @bind-Value="dipendenti!.IsReferent" class="form-control" />
+        <label for="referente">Sei un referente?:  <InputCheckbox id="referente" @bind-Value="dipendenti!.IsReferent" /></label>
+
     </div>
 
 
@@ -81,7 +81,7 @@
     public string? Title { get; set; }
 
     [Parameter]
-    public List<Sedi> sedi { get; set; } = null!;
+    public List<Sedi> Sedi { get; set; }
 
     [Parameter]
     public EventCallback OnSalva { get; set; }

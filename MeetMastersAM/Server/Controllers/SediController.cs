@@ -1,14 +1,36 @@
 ﻿using MeetMastersAM.Server.Services;
+using MeetMastersAM.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MeetMastersAM.Server.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class SediController : ControllerBase
 {
-    public class SediController : ControllerBase
+    private readonly ISediService _sediService;
+
+    public SediController(ISediService sediService)
     {
-        private readonly ISediService _Sediservice;
-        public SediController(ISediService sediService)
+        _sediService = sediService;
+    }
+
+    [HttpGet("lista")]
+    public async Task<IActionResult> GetSedi()
+    {
+        var items = await _sediService.GetDetailsSedi();
+        return Ok(items);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var item = await _sediService.GetElementById(id);
+        if (item == null)
         {
-            _Sediservice = sediService;
+            return NotFound();
         }
+
+        return Ok(item);
     }
 }
+
+

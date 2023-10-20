@@ -18,5 +18,6 @@ namespace MeetMastersAM.Server.Repository
                 .Include(e => e.Mansioni)
                 .ToListAsync();
         }
+
     }
 }
