@@ -16,7 +16,7 @@ namespace MeetMastersAM.Server.Repository
         public async Task<IEnumerable<Sedi>> GetDetailsSediAsync()
         {
             return await _context.Set<Sedi>()
-                .Include(e => e.Dipendenti)
+                //.Include(e => e.Dipendenti)
                 .ToListAsync();
         }
     }

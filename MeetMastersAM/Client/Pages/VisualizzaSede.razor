@@ -2,14 +2,72 @@
 @using MeetMastersAM.Shared.Model;
 @inject HttpClient Client
 
-<h3>Visualizza Sede di @_sede.DescrizioneSede</h3>
+<div class="container mt-5">
+    <div class="row">
+        <h3>Sede di @_sede!.DescrizioneSede</h3>
+        <p>Puoi trovarci in @_sede!.IndirizzoSede</p>
+        <a href="mailto:@_sede!.EmailSede">Invia un Email a: @_sede!.EmailSede</a>
+        <a href="tel:@_sede!.RecapitoSede">Chiama: @_sede!.RecapitoSede</a>
+    </div>
+</div>
+
+<table class="table mt-5 w-50" >
+    <tr>
+        <th colspan="2">Nome</th>
+        <th>Genere</th>
+        <th>Mansione</th>
+    </tr>
+
+        @foreach (var dipendente in _listaDipendenti.Where(d => d.SedeId == _sede!.SedeId))
+        {
+            <tr>
+                <td>@dipendente.NomeDipendente</td>
+                <td>@dipendente.CognomeDipendente</td>
+                <td>@dipendente.GenereDipendente</td>
+                <td>
+                    @foreach (var m in dipendente.Mansioni!)
+                    {
+                        @m.NomeMansione
+
+                        <span>, </span>
+                    }
+                </td>
+
+            </tr>
+        }
+    
+</table>
+
+
+
+
+
 
 
 
 @code {
-    private Sedi? _sede { get; set; } = new();
+    private Sedi? _sede = new();
+
+    private List<Dipendenti>? _listaDipendenti = new();
+
+    private Dipendenti? Dipendente = new();
 
     [Parameter]
     public int Id { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetDipendenti();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _sede = await Client.GetFromJsonAsync<Sedi>($"api/Sedi/{Id}");
+    }
+
+    public async Task GetDipendenti()
+    {
+        _listaDipendenti = await Client.GetFromJsonAsync<List<Dipendenti>>("api/dipendenti/details");
+    }
 }

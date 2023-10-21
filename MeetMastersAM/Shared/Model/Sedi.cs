@@ -35,8 +35,6 @@ namespace MeetMastersAM.Shared.Model
         [Required(ErrorMessage = "Questo campo è richiesto!")]
         [Display(Name ="Referente")]
         public int? ReferenteId { get; set; }
-
-       
         public virtual Dipendenti ReferenteNavigation { get; set; } = null!;
         public virtual ICollection<Dipendenti> Dipendenti { get; set; } = new List<Dipendenti>();
         public virtual ICollection<Colloqui> Colloquis { get; set; } = new List<Colloqui>();

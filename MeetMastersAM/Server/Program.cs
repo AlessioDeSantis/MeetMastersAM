@@ -3,12 +3,15 @@ using MeetMastersAM.Server.Repository;
 using MeetMastersAM.Server.Services;
 using MeetMastersAM.Shared.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(option =>
+    option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
 
@@ -16,6 +19,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
+
+
 
 builder.Services.AddScoped<IRepositoryBase<Benefits>, RepositoryBase<Benefits>>();
 builder.Services.AddScoped<IBenefitRepository, BenefitRepository>();
