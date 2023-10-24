@@ -16,27 +16,29 @@ else
 {
     <h2>@TitlePage Dipendente</h2>
     <div class="row">
-        <DettagliDipendente dipendenti="DipendenteCorrente" Sedi="_sedi" OnSalva="() => SalvaDipendente(DipendenteCorrente)" OnAnnulla="AnnullaOperazione" Title="TitlePage" dipendenteId="_dipendenteId" />
+        <DettagliDipendente dipendenti="DipendenteCorrente" Mansioni="_mansioni" Sedi="_sedi" OnSalva="() => SalvaDipendente(DipendenteCorrente)" OnAnnulla="AnnullaOperazione" Title="TitlePage" dipendenteId="_dipendenteId" />
     </div>
 }
 
 @code {
     private List<Dipendenti>? _dipendenti = new();
     private List<Sedi>? _sedi = new();
+    private List<Mansioni>? _mansioni = new();
     public int _dipendenteId { get; set; }
     public Dipendenti? DipendenteCorrente = new();
     private bool isAdd;
     protected string TitlePage = "Aggiungi";
 
     public List<Dipendenti> ListaDipendenti { get; set; } = new List<Dipendenti>();
-
     public List<Sedi> ListaSedi { get; set; } = new List<Sedi>();
+    public List<Mansioni> ListaMansioni { get; set; } = new List<Mansioni>();
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         await GetDipendenti();
         await GetSedi();
+        await GetMansioni();
     }
 
     public async Task GetDipendenti()
@@ -47,6 +49,11 @@ else
     public async Task GetSedi()
     {
         _sedi = await Client.GetFromJsonAsync<List<Sedi>>("api/Sedi/lista");
+    }
+
+    public async Task GetMansioni()
+    {
+        _mansioni = await Client.GetFromJsonAsync<List<Mansioni>>("api/mansioni/details");
     }
 
     public async Task<Dipendenti> GetDipendente(int id)
@@ -73,6 +80,7 @@ else
         isAdd = false;
         await GetDipendenti();
         await GetSedi();
+        await GetMansioni();
         DipendenteCorrente = new();
 
     }

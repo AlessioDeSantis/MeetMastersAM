@@ -5,9 +5,17 @@ namespace MeetMastersAM.Server.Services
 {
     public class MansioniService : ServicesBase<Mansioni>, IMansioniService
     {
-        public MansioniService(IRepositoryBase<Mansioni> data) : base(data)
+        private IMansioniRepository _mansioniRepository;
+        public MansioniService(IRepositoryBase<Mansioni> data, IMansioniRepository mansioniRepository) : base(data)
         {
-            
+
+            _mansioniRepository = mansioniRepository;
+
+        }
+
+        public async Task<IEnumerable<Mansioni>> GetDetailsMansioni()
+        {
+            return await _mansioniRepository.GetDetailsMansioniAsync();
         }
     }
 }

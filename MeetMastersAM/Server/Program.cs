@@ -34,6 +34,11 @@ builder.Services.AddScoped<IRepositoryBase<Sedi>, RepositoryBase<Sedi>>();
 builder.Services.AddScoped<ISediRepository, SediRepository>();
 builder.Services.AddScoped<IServiceBase<Sedi>, ServicesBase<Sedi>>();
 builder.Services.AddScoped<ISediService, SediService>();
+//Mansioni
+builder.Services.AddScoped<IRepositoryBase<Mansioni>, RepositoryBase<Mansioni>>();
+builder.Services.AddScoped<IMansioniRepository, MansioniRepository>();
+builder.Services.AddScoped<IServiceBase<Mansioni>, ServicesBase<Mansioni>>();
+builder.Services.AddScoped<IMansioniService, MansioniService>();
 
 
 

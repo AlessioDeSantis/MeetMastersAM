@@ -1,0 +1,30 @@
+﻿@using MeetMastersAM.Shared.Model
+
+<h5>Aggiungi Mansioni</h5>
+
+<EditForm Model="@mansione"
+          OnValidSubmit="OnSalva" class="col-6">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-3">
+        <label for="nome">Nome:</label>
+        <InputText id="nome" @bind-Value="mansione!.NomeMansione" class="form-control" />
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Salva</button>
+    
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public Mansioni? mansione { get; set; }
+
+    [Parameter]
+    public EventCallback OnSalva { get; set; }
+
+}

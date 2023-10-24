@@ -17,7 +17,7 @@ namespace MeetMastersAM.Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -977,13 +977,11 @@ namespace MeetMastersAM.Server.Migrations
 
                     b.Navigation("ColloquiReferenti");
 
-                    b.Navigation("ContrattoNavigation")
-                        .IsRequired();
+                    b.Navigation("ContrattoNavigation");
 
                     b.Navigation("Dipendenti_Skills");
 
-                    b.Navigation("ReferenteSedeNavigation")
-                        .IsRequired();
+                    b.Navigation("ReferenteSedeNavigation");
                 });
 
             modelBuilder.Entity("MeetMastersAM.Shared.Model.LivelliContratti", b =>

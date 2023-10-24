@@ -46,7 +46,7 @@
     <div class="form-group mb-3">
         <label for="sede">Sede:</label>
         <InputSelect id="sede" @bind-Value="dipendenti!.SedeId" class="form-control">
-            <option>Seleziona Sede</option>
+            <option>Seleziona Sede...</option>
 
             @foreach (var sede in Sedi)
             {
@@ -55,22 +55,26 @@
         </InputSelect>
     </div>
 
+    @* <div class="form-group mb-3">
+        <label for="mansioni">Mansione:</label>
+        <InputSelect id="mansioni" @bind-Value="dipendenti!.Mansioni" class="form-control" multiple>
+            <option>Seleziona Mansioni...</option>
+
+            @foreach (var mansione in Mansioni)
+            {
+                <option value="@mansione!.MansioneId">@mansione!.NomeMansione</option>
+            }
+        </InputSelect>
+    </div> *@
+
     <div class="form-group mb-3">
         <label for="referente">Sei un referente?:  <InputCheckbox id="referente" @bind-Value="dipendenti!.IsReferent" /></label>
 
     </div>
 
 
-    @* <div class="form-group">
-    <label for="mansione">Mansione:</label>
-    <InputText id="mansione" @bind-Value="dipendenti!.Mansioni" class="form-control" />
-    </div> *@
-
-
-
-
     <button type="submit" class="btn btn-primary">Salva</button>
-    <button type="button" class="btn btn-warning" @onclick="OnAnnulla">Annulla</button>
+    @* <button type="button" class="btn btn-warning" @onclick="OnAnnulla">Annulla</button> *@
 </EditForm>
 
 @code {
@@ -84,7 +88,10 @@
     public string? Title { get; set; }
 
     [Parameter]
-    public List<Sedi> Sedi { get; set; }
+    public List<Sedi>? Sedi { get; set; }
+
+    [Parameter]
+    public List<Mansioni> Mansioni { get; set; } = null!;
 
     [Parameter]
     public EventCallback OnSalva { get; set; }

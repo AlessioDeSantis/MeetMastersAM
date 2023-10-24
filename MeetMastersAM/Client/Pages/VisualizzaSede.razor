@@ -4,39 +4,50 @@
 
 <div class="container mt-5">
     <div class="row">
-        <h3>Sede di @_sede!.DescrizioneSede</h3>
+        <h2>Sede di @_sede!.DescrizioneSede</h2>
         <p>Puoi trovarci in @_sede!.IndirizzoSede</p>
         <a href="mailto:@_sede!.EmailSede">Invia un Email a: @_sede!.EmailSede</a>
         <a href="tel:@_sede!.RecapitoSede">Chiama: @_sede!.RecapitoSede</a>
     </div>
 </div>
 
-<table class="table mt-5 w-50" >
-    <tr>
-        <th colspan="2">Nome</th>
-        <th>Genere</th>
-        <th>Mansione</th>
-    </tr>
-
-        @foreach (var dipendente in _listaDipendenti.Where(d => d.SedeId == _sede!.SedeId))
-        {
-            <tr>
-                <td>@dipendente.NomeDipendente</td>
-                <td>@dipendente.CognomeDipendente</td>
-                <td>@dipendente.GenereDipendente</td>
-                <td>
-                    @foreach (var m in dipendente.Mansioni!)
+<div class="my-5">
+    @foreach (var dipendente in _listaDipendenti.Where(d => d.SedeId == _sede!.SedeId))
+    {
+        <div class="card col-3 my-3">
+            <div class="row p-2">
+                <div class="bg-navy w-100 text-white col-12 rounded">
+                    <h5>@dipendente.NomeDipendente @dipendente.CognomeDipendente</h5>
+                </div>
+                <div class="col-3 mt-3 mx-auto">
+                    @if(dipendente.GenereDipendente == "Uomo")
                     {
-                        @m.NomeMansione
-
-                        <span>, </span>
+                        <img class="profile-card" src="image/male_profile.webp" style="width:90px; height: 80px;" />
                     }
-                </td>
+                    else if (dipendente.GenereDipendente == "Donna")
+                    {
+                        <img class="profile-card" src="image/female_profile.webp" style="width:90px; height: 80px;" />
+                    }
+                </div>
+                <div class="col-8 mx-auto mt-3">
+                    <div class="span-div d-flex">
+                        @foreach (var m in dipendente.Mansioni!)
+                        {
+                            <span class="bg-navy text-white rounded">@m.NomeMansione</span>
+                        }
+                    </div>
 
-            </tr>
-        }
+                    <p><i class="fa-solid fa-phone"></i> <a href="tel:@dipendente.RecapitoDipendente">@dipendente.RecapitoDipendente</a></p>
+                    <p><i class="fa-solid fa-location-dot"></i> @dipendente.IndirizzoDipendente</p>
+                    <p><i class="fa-regular fa-calendar"></i> @dipendente.DataNascitaDipendente.ToShortDateString()</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
     
-</table>
+
+
 
 
 

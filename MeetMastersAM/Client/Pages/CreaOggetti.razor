@@ -1,0 +1,116 @@
+﻿@page "/creaoggetti"
+@using MeetMastersAM.Shared.Model
+@inject HttpClient Client
+
+
+<h3>Crea Oggetti</h3>
+
+<div class="my-3 row">
+    <Accordion Class="col-6">
+        <AccordionItem Title="Aggiungi Mansione">
+            <Content>
+                <AggiungiMansioni mansione="MansioneCorrente" OnSalva="() => SalvaMansioni(MansioneCorrente)" />
+            </Content>
+        </AccordionItem>
+        <AccordionItem Title="Accordion Item #2">
+            <Content>
+                <b>This is the second item's accordion body.</b> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+            </Content>
+        </AccordionItem>
+        <AccordionItem Title="Accordion Item #3">
+            <Content>
+                <b>This is the third item's accordion body.</b> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+            </Content>
+        </AccordionItem>
+    </Accordion>
+</div>
+
+<h3>Azioni</h3>
+
+<div class="mt-3 row">
+    <Accordion Class="col-6">
+        <AccordionItem Title="Lista mansioni">
+            <Content>
+                <table class="table">
+                    @foreach (var mansioni in _mansioni)
+                    {
+                        <tr>
+                            <td>@mansioni!.NomeMansione</td>
+                            <th>
+                                <button class="btn btn-warning" @onclick="() => ModificaMansioneAsync(mansioni.MansioneId)">
+                                    Modifica
+                                </button>
+                                <button class="btn btn-danger" @onclick="() => EliminaMansione(mansioni.MansioneId)">
+                                    Elimina
+                                </button>
+                            </th>
+                        </tr>
+                    }
+                </table>
+
+            </Content>
+        </AccordionItem>
+        <AccordionItem Title="Accordion Item #2">
+            <Content>
+                <b>This is the second item's accordion body.</b> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+            </Content>
+        </AccordionItem>
+        <AccordionItem Title="Accordion Item #3">
+            <Content>
+                <b>This is the third item's accordion body.</b> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+            </Content>
+        </AccordionItem>
+    </Accordion>
+</div>
+
+
+@code {
+    public Mansioni? MansioneCorrente = new();
+
+    public List<Mansioni>? _mansioni = new List<Mansioni>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetMansioni();
+
+    }
+
+    public async Task GetMansioni()
+    {
+        _mansioni = await Client.GetFromJsonAsync<List<Mansioni>>("api/mansioni/details");
+    }
+
+    public async Task<Mansioni> GetMansione(int id)
+    {
+        return await Client.GetFromJsonAsync<Mansioni>($"api/mansioni/{id}");
+    }
+
+    public async Task SalvaMansioni(Mansioni mansione)
+    {
+        @if(mansione.MansioneId == 0)
+        {
+            await Client.PostAsJsonAsync("api/mansioni/aggiungi", mansione);
+        }
+        else
+        {
+            await Client.PutAsJsonAsync($"api/mansioni/modifica/{mansione.MansioneId}", mansione);
+        }
+        mansione = new Mansioni();
+        await GetMansioni();
+        MansioneCorrente = new();
+    }
+
+    public async Task EliminaMansione(int id)
+    {
+        await Client.DeleteAsync($"api/mansioni/{id}");
+        await GetMansioni();
+    }
+
+    public async Task ModificaMansioneAsync(int id)
+    {
+        MansioneCorrente = await GetMansione(id);
+    }
+
+
+}
