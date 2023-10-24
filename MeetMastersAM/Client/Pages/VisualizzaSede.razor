@@ -2,59 +2,51 @@
 @using MeetMastersAM.Shared.Model;
 @inject HttpClient Client
 
-<div class="container mt-5">
-    <div class="row">
-        <h2>Sede di @_sede!.DescrizioneSede</h2>
-        <p>Puoi trovarci in @_sede!.IndirizzoSede</p>
-        <a href="mailto:@_sede!.EmailSede">Invia un Email a: @_sede!.EmailSede</a>
-        <a href="tel:@_sede!.RecapitoSede">Chiama: @_sede!.RecapitoSede</a>
+<div class="container-sedi">
+    <div class="container my-5">
+        <div class="row">
+            <h2>Sede di @_sede!.DescrizioneSede</h2>
+            <p>Puoi trovarci in @_sede!.IndirizzoSede</p>
+            <a href="mailto:@_sede!.EmailSede">Invia un Email a: @_sede!.EmailSede</a>
+            <a href="tel:@_sede!.RecapitoSede">Chiama: +39 @_sede!.RecapitoSede</a>
+        </div>
+    </div>
+
+    <div class="my-5 container-card d-flex row">
+        @foreach (var dipendente in _listaDipendenti!.Where(d => d.SedeId == _sede!.SedeId))
+        {
+            <div class="col-4">
+                <div class="card card-size my-3 shadow mx-auto p-2">
+                    <div class="row p-2">
+                        <div class="bg-navy w-100 text-white col-12 rounded">
+                            <h5>@dipendente.NomeDipendente @dipendente.CognomeDipendente</h5>
+                        </div>
+                        <div class="col-3 mt-3 mx-auto">
+                            <img class="profile-card" src="image/@(dipendente.GenereDipendente! == "Donna" ? "female" : "male")_profile.webp" style="width: 90px; height: 80px;" />
+
+                        </div>
+                        <div class="col-8 mx-auto mt-3">
+                            <div class="span-div d-flex">
+                                @foreach (var m in dipendente.Mansioni!)
+                                {
+                                    <span class="bg-navy text-white rounded">@m.NomeMansione</span>
+                                }
+                            </div>
+
+                            <p><i class="fa-solid fa-phone"></i> <a href="tel:@dipendente.RecapitoDipendente">+39 @dipendente.RecapitoDipendente</a></p>
+                            <p><i class="fa-solid fa-location-dot"></i> @dipendente.IndirizzoDipendente</p>
+                            <p><i class="fa-regular fa-calendar"></i> @dipendente.DataNascitaDipendente.ToShortDateString()</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
     </div>
 </div>
 
-<div class="my-5">
-    @foreach (var dipendente in _listaDipendenti.Where(d => d.SedeId == _sede!.SedeId))
-    {
-        <div class="card col-3 my-3">
-            <div class="row p-2">
-                <div class="bg-navy w-100 text-white col-12 rounded">
-                    <h5>@dipendente.NomeDipendente @dipendente.CognomeDipendente</h5>
-                </div>
-                <div class="col-3 mt-3 mx-auto">
-                    @if(dipendente.GenereDipendente == "Uomo")
-                    {
-                        <img class="profile-card" src="image/male_profile.webp" style="width:90px; height: 80px;" />
-                    }
-                    else if (dipendente.GenereDipendente == "Donna")
-                    {
-                        <img class="profile-card" src="image/female_profile.webp" style="width:90px; height: 80px;" />
-                    }
-                </div>
-                <div class="col-8 mx-auto mt-3">
-                    <div class="span-div d-flex">
-                        @foreach (var m in dipendente.Mansioni!)
-                        {
-                            <span class="bg-navy text-white rounded">@m.NomeMansione</span>
-                        }
-                    </div>
 
-                    <p><i class="fa-solid fa-phone"></i> <a href="tel:@dipendente.RecapitoDipendente">@dipendente.RecapitoDipendente</a></p>
-                    <p><i class="fa-solid fa-location-dot"></i> @dipendente.IndirizzoDipendente</p>
-                    <p><i class="fa-regular fa-calendar"></i> @dipendente.DataNascitaDipendente.ToShortDateString()</p>
-                </div>
-            </div>
-        </div>
-    }
-</div>
-    
-
-
-
-
-
-
-
-
-
+   
 
 @code {
     private Sedi? _sede = new();
