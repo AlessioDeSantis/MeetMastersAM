@@ -4,5 +4,6 @@ namespace MeetMastersAM.Server.Repository
 {
     public interface ISkillsRepository : IRepositoryBase<Skills>
     {
+        public Task<IEnumerable<Skills>> GetDetailsSkillAsync();
     }
 }

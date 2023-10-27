@@ -7,7 +7,7 @@
 
 <div class="my-3">
     <Accordion>
-        <AccordionItem Title="Aggiungi Mansione" Class="p-2">
+        <AccordionItem Title="Mansioni">
             <Content>
                 <div class="row shadow border">
                     <div class="col-6 border-end pt-2">
@@ -43,38 +43,131 @@
                         </table>
                         @* Pagination *@
                         <div class="pagination-container text-center">
-                            <button class="btn text-primary" disabled="@IsFirstPage" @onclick="GoToPreviousPage"><i class="fa-solid fa-circle-left"></i></button>
-                            <button class="btn text-primary" disabled="@IsLastPage" @onclick="GoToNextPage"><i class="fa-solid fa-circle-right"></i></button>
+                            <button class="btn text-primary" disabled="@IsFirstPage" @onclick="PreviousPageMansioni"><i class="fa-solid fa-circle-left"></i></button>
+                            <button class="btn text-primary" disabled="@IsLastPage" @onclick="NextPageMansioni"><i class="fa-solid fa-circle-right"></i></button>
                         </div>
 
                     </div>
                 </div>
             </Content>
         </AccordionItem>
-        <AccordionItem Title="Accordion Item #2">
+        <AccordionItem Title="Benefits">
             <Content>
-                <b>This is the second item's accordion body.</b> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+                <div class="row shadow border">
+                    <div class="col-6 border-end pt-2">
+                        <AggiungiBenefits benefit="BenefitCorrente" OnSalva="() => SalvaBenefits(BenefitCorrente)" />
+                    </div>
+                    <div class="col-6 p-2">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-10">Benefit</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (visibleBenefits != null)
+                                {
+                                    @foreach (var benefit in visibleBenefits)
+                                    {
+                                        <tr class="mb-2">
+                                            <td>@benefit!.DescrizioneBenefit</td>
+                                            <td class="align-items-end">
+                                                <button class="btn text-warning" @onclick="() => ModificaBenefitsAsync(benefit!.BenefitId)">
+                                                    <i class="fa-solid fa-gear"></i>
+                                                </button>
+                                                <button class="btn text-danger" @onclick="() => EliminaBenefit(benefit!.BenefitId)">
+                                                    <i class="fa-solid fa-circle-xmark"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        @* Pagination *@
+                        <div class="pagination-container text-center">
+                            <button class="btn text-primary" disabled="@IsFirstPage" @onclick="PreviousPageBenefits"><i class="fa-solid fa-circle-left"></i></button>
+                            <button class="btn text-primary" disabled="@IsLastPage" @onclick="NextPageBenefits"><i class="fa-solid fa-circle-right"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+
             </Content>
         </AccordionItem>
-        <AccordionItem Title="Accordion Item #3">
+        <AccordionItem Title="Skills">
             <Content>
-                <b>This is the third item's accordion body.</b> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+                <div class="row shadow border">
+                    <div class="col-6 border-end pt-2">
+                        <AggiungiSkills skill="SkillCorrente" OnSalva="() => SalvaSkills(SkillCorrente!)" />
+                    </div>
+                    <div class="col-6 p-2">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Skill</th>
+                                    <th>Tipo</th>
+                                    <th>Attivo</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (visibleSkills != null)
+                                {
+                                    @foreach (var skill in visibleSkills)
+                                    {
+                                        <tr class="mb-2">
+                                            <td>@skill!.DescrizioneSkill</td>
+                                            <td>@skill!.TipoSkill</td>
+                                            <td>@skill!.Attivo</td>
+                                            <td class="align-items-end">
+                                                <button class="btn text-warning" @onclick="() => ModificaSkillsAsync(skill!.SkillId)">
+                                                    <i class="fa-solid fa-gear"></i>
+                                                </button>
+                                                <button class="btn text-danger" @onclick="() => EliminaSkill(skill!.SkillId)">
+                                                    <i class="fa-solid fa-circle-xmark"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        @* Pagination *@
+                        <div class="pagination-container text-center">
+                            <button class="btn text-primary" disabled="@IsFirstPage" @onclick="PreviousPageSkills"><i class="fa-solid fa-circle-left"></i></button>
+                            <button class="btn text-primary" disabled="@IsLastPage" @onclick="NextPageSkills"><i class="fa-solid fa-circle-right"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+
             </Content>
+
         </AccordionItem>
     </Accordion>
 </div>
 
 
 @code {
+    //Mansioni
     public Mansioni? MansioneCorrente = new();
-
     public List<Mansioni>? _mansioni = new List<Mansioni>();
+    //Benefits
+    public Benefits? BenefitCorrente = new();
+    public List<Benefits>? _benefits = new List<Benefits>();
+    //Skills
+    public Skills? SkillCorrente = new();
+    public List<Skills>? _skills = new List<Skills>();
 
     //Pagination
     private int currentPage = 1;
     private int pageSize = 3;   // Dimensione delle pagine
     private int totalItems;
     private List<Mansioni>? visibleMansioni;
+    private List<Benefits>? visibleBenefits;
+    private List<Skills>? visibleSkills;
 
     //Pagination navigazione tra pagine
     private bool IsFirstPage => currentPage == 1;
@@ -87,15 +180,33 @@
     {
         await base.OnInitializedAsync();
         await GetMansioni();
-
+        await GetBenefits();
+        await GetSkills();
     }
 
+    //Get
     public async Task GetMansioni()
     {
         _mansioni = await Client.GetFromJsonAsync<List<Mansioni>>("api/mansioni/details");
         //Pagination
         totalItems = _mansioni!.Count;
         UpdateVisibleMansioni();
+    }
+
+    public async Task GetBenefits()
+    {
+        _benefits = await Client.GetFromJsonAsync<List<Benefits>>("api/benefits/details");
+        //Pagination
+        totalItems = _benefits!.Count;
+        UpdateVisibleBenefits();
+    }
+
+    public async Task GetSkills()
+    {
+        _skills = await Client.GetFromJsonAsync<List<Skills>>("api/skill/details");
+        //Pagination
+        totalItems = _benefits!.Count;
+        UpdateVisibleSkills();
     }
 
     //Pagination
@@ -105,7 +216,7 @@
         visibleMansioni = _mansioni!.Skip(startIdx).Take(pageSize).ToList();
     }
 
-    private void GoToPreviousPage()
+    private void PreviousPageMansioni()
     {
         if (!IsFirstPage)
         {
@@ -114,7 +225,7 @@
         }
     }
 
-    private void GoToNextPage()
+    private void NextPageMansioni()
     {
         if (!IsLastPage)
         {
@@ -122,15 +233,78 @@
             UpdateVisibleMansioni();
         }
     }
+
+    private void UpdateVisibleBenefits()
+    {
+        int startIdx = (currentPage - 1) * pageSize;
+        visibleBenefits = _benefits!.Skip(startIdx).Take(pageSize).ToList();
+    }
+
+    private void PreviousPageBenefits()
+    {
+        if (!IsFirstPage)
+        {
+            currentPage--;
+            UpdateVisibleBenefits();
+        }
+    }
+
+    private void NextPageBenefits()
+    {
+        if (!IsLastPage)
+        {
+            currentPage++;
+            UpdateVisibleBenefits();
+        }
+    }
+
+    private void UpdateVisibleSkills()
+    {
+        int startIdx = (currentPage - 1) * pageSize;
+        visibleSkills = _skills!.Skip(startIdx).Take(pageSize).ToList();
+    }
+
+    private void PreviousPageSkills()
+    {
+        if (!IsFirstPage)
+        {
+            currentPage--;
+            UpdateVisibleSkills();
+        }
+    }
+
+    private void NextPageSkills()
+    {
+        if (!IsLastPage)
+        {
+            currentPage++;
+            UpdateVisibleSkills();
+        }
+    }
+
     //Fine metodi pagination
 
 
+    //Get by Id
     public async Task<Mansioni> GetMansione(int id)
     {
         var result = await Client.GetFromJsonAsync<Mansioni>($"api/mansioni/{id}");
         return result ?? new Mansioni();
     }
 
+    public async Task<Benefits> GetBenefit(int id)
+    {
+        var result = await Client.GetFromJsonAsync<Benefits>($"api/benefits/{id}");
+        return result ?? new Benefits();
+    }
+
+    public async Task<Skills> GetSkill(int id)
+    {
+        var result = await Client.GetFromJsonAsync<Skills>($"api/skill/{id}");
+        return result ?? new Skills();
+    }
+
+    //Salva e aggiorna oggetti
     public async Task SalvaMansioni(Mansioni mansione)
     {
         @if (mansione.MansioneId == 0)
@@ -146,15 +320,70 @@
         MansioneCorrente = new();
     }
 
+    public async Task SalvaBenefits(Benefits benefit)
+    {
+        @if(benefit.BenefitId == 0)
+        {
+            await Client.PostAsJsonAsync("api/benefits/aggiungi", benefit);
+        }
+        else
+        {
+            await Client.PutAsJsonAsync($"api/benefits/modifica/{benefit.BenefitId}", benefit);
+        }
+        benefit = new Benefits();
+        await GetBenefits();
+        BenefitCorrente = new();
+    }
+
+    public async Task SalvaSkills(Skills skill)
+    {
+        @if(skill.SkillId == 0)
+        {
+            await Client.PostAsJsonAsync("api/skill/aggiungi", skill);
+        }
+        else
+        {
+            await Client.PutAsJsonAsync($"api/skill/modifica/{skill.SkillId}", skill);
+        }
+        skill = new Skills();
+        await GetSkills();
+        SkillCorrente = new();
+    }
+
+    //Elimina Elemento
     public async Task EliminaMansione(int id)
     {
         await Client.DeleteAsync($"api/mansioni/{id}");
         await GetMansioni();
     }
 
+    public async Task EliminaBenefit(int id)
+    {
+        await Client.DeleteAsync($"api/benefits/{id}");
+        await GetBenefits();
+    }
+
+    public async Task EliminaSkill(int id)
+    {
+        await Client.DeleteAsync($"api/skill/{id}");
+        await GetSkills();
+    }
+
+
+    //Modifica Elemento
     public async Task ModificaMansioneAsync(int id)
     {
         MansioneCorrente = await GetMansione(id);
+    }
+
+    public async Task ModificaBenefitsAsync(int id)
+    {
+        BenefitCorrente = await GetBenefit(id);
+    }
+
+    public async Task ModificaSkillsAsync(int id)
+    {
+        SkillCorrente = await GetSkill(id);
     }
 
 

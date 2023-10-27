@@ -5,9 +5,17 @@ namespace MeetMastersAM.Server.Services
 {
     public class SkillsService : ServicesBase<Skills> ,ISkillsService
     {
-        public SkillsService(IRepositoryBase<Skills> data) : base(data)
+        private ISkillsRepository _skillRepository;
+        public SkillsService(IRepositoryBase<Skills> data, ISkillsRepository skillRepository) : base(data)
         {
-            
+
+            _skillRepository = skillRepository;
+
+        }
+
+        public async Task<IEnumerable<Skills>> GetDetailsSkills()
+        {
+            return await _skillRepository.GetDetailsSkillAsync();
         }
     }
 }

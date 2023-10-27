@@ -1,0 +1,78 @@
+﻿@using MeetMastersAM.Shared.Model
+@inject HttpClient Client
+@page "/aggiungiSede"
+
+<h3>Nuova Skill <i class="fa-solid fa-ranking-star"></i></h3>
+
+<EditForm Model="@sede"
+          class="col-6">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-3">
+        <label for="nome">Nome:</label>
+        <InputText id="nome" @bind-Value="sede!.DescrizioneSede" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="indirizzo">Indirizzo:</label>
+        <InputText id="indirizzo" @bind-Value="sede!.IndirizzoSede" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="recapito">Recapito:</label>
+        <InputText typeof="phone" id="recapito" @bind-Value="sede!.RecapitoSede" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="email">Email:</label>
+        <InputText typeof="email" id="email" @bind-Value="sede!.EmailSede" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="referente">Referente:</label>
+        <InputSelect id="referente" @bind-Value="sede!.ReferenteId" class="form-control">
+            <option>Seleziona referente...</option>
+            
+            @foreach (var referente in _dipendenti)
+            {
+                <option value="@referente!.DipendenteId">@referente!.NomeDipendente @referente!.CognomeDipendente</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit" @onclick="SalvaSede" class="btn btn-success mb-3">Salva <i class="fa-solid fa-circle-check"></i></button>
+
+</EditForm>
+
+
+@code {
+    public Sedi? sede = new();
+    public List<Dipendenti>? _dipendenti = new();
+
+    public async Task GetDipendenti()
+    {
+        _dipendenti = await Client.GetFromJsonAsync<List<Dipendenti>>("api/dipendenti/details");
+    }
+
+    public async Task SalvaSede()
+    {
+
+        if (sede!.SedeId == 0)
+        {
+            // Aggiungi il nuovo dipendente
+            await Client.PostAsJsonAsync("api/sedi/aggiungi", sede);
+        }
+        else
+        {
+            await Client.PutAsJsonAsync($"api/sedi/modifica/{sede.SedeId}", sede);
+            // Aggiorna i dati del dipendenteDaModificare
+        }
+        sede = new Sedi();
+        sede = new();
+
+    }
+}
+
+

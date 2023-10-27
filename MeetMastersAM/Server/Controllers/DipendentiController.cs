@@ -53,7 +53,7 @@ public class DipendentiController : ControllerBase
             return BadRequest();
         }
 
-        await _dipendentiService.UpdateElement(dipendenti);
+        await _dipendentiService.UpdateDipendentiManyToMany(dipendenti);
 
         return NoContent();
     }

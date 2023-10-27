@@ -17,6 +17,7 @@ namespace MeetMastersAM.Server.Data
         public virtual DbSet<Comuni> Comuni { get; set; }
         public virtual DbSet<Contratti> Contratti { get; set; }
         public virtual DbSet<Dipendenti> Dipendenti { get; set; }
+        public virtual DbSet<Dipendenti_Mansioni> Dipendenti_Mansioni { get; set; }
         public virtual DbSet<Dipendenti_Skills> Dipendenti_Skills { get; set; }
         public virtual DbSet<Esperienze> Esperienze { get; set; }
         public virtual DbSet<LivelliContratti> LivelliContratti { get; set; }
@@ -84,7 +85,22 @@ namespace MeetMastersAM.Server.Data
                       .OnDelete(DeleteBehavior.NoAction);
             });
 
-            
+            modelBuilder.Entity<Dipendenti_Mansioni>(entity =>
+            {
+                entity.HasKey(p => new { p.MansioneId, p.DipendenteId });
+
+                entity.HasOne(p => p.MansioniNavigation)
+                      .WithMany(p => p.Dipendenti_Mansioni)
+                      .HasForeignKey(p => p.MansioneId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(p => p.DipendenteNavigation)
+                      .WithMany(p => p.Mansioni_Dipendenti)
+                      .HasForeignKey(p => p.DipendenteId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+
         }
     }
 }

@@ -25,16 +25,16 @@
             <td>@dipendente.RecapitoDipendente</td>
             <td>@dipendente.DataNascitaDipendente.ToShortDateString()</td>
             <td>@dipendente.GenereDipendente</td>
-            <td>@dipendente.LuogoDiLavoroSedeNavigation.DescrizioneSede</td>
+            <td>@dipendente.LuogoDiLavoroSedeNavigation!.DescrizioneSede</td>
             <td>@dipendente.IsReferent</td>
-            <td>
+            @* <td>
                 @foreach (var m in dipendente.Mansioni!)
                 {
                     @m.NomeMansione
 
                     <span>, </span>
                 }
-            </td>
+            </td> *@
             <th>
                 <button class="btn btn-warning" @onclick="() => OnModifica.InvokeAsync(dipendente.DipendenteId)">
                     Modifica

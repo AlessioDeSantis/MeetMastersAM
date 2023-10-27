@@ -16,7 +16,7 @@ namespace MeetMastersAM.Server.Repository
         public async Task<IEnumerable<Mansioni>> GetDetailsMansioniAsync()
         {
             return await _context.Set<Mansioni>()
-                .Include(e => e.Dipendenti)
+                .Include(e => e.Dipendenti_Mansioni)
                 .Include(e => e.Esperienze)
                 .ToListAsync();
         }

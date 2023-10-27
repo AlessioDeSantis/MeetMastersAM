@@ -1,0 +1,44 @@
+﻿@using MeetMastersAM.Shared.Model
+
+<h5>Nuova Skill <i class="fa-solid fa-ranking-star"></i></h5>
+
+<EditForm Model="@skill"
+          OnValidSubmit="OnSalva" class="col-6">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-3">
+        <label for="nome">Nome:</label>
+        <InputText id="nome" @bind-Value="skill!.DescrizioneSkill" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="tipo">Tipo skill:</label>
+        <InputSelect id="tipo" @bind-Value="skill!.TipoSkill" class="form-control">
+            <option>Seleziona tipo...</option>
+            <option value="Soft">Soft</option>
+            <option value="Hard">Hard</option>
+        </InputSelect>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="attivo">Skill attiva:</label>
+        <InputCheckbox id="referente" @bind-Value="skill!.Attivo" />
+    </div>
+
+    <button type="submit" class="btn btn-success mb-3">Salva <i class="fa-solid fa-circle-check"></i></button>
+
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public Skills? skill { get; set; }
+
+    [Parameter]
+    public EventCallback OnSalva { get; set; }
+
+}
+

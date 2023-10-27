@@ -21,19 +21,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 
-
+//Benefits
 builder.Services.AddScoped<IRepositoryBase<Benefits>, RepositoryBase<Benefits>>();
 builder.Services.AddScoped<IBenefitRepository, BenefitRepository>();
 builder.Services.AddScoped<IServiceBase<Benefits>, ServicesBase<Benefits>>();
 builder.Services.AddScoped<IBenefitsServices, BenefitsService>();
+//Dipendenti
 builder.Services.AddScoped<IRepositoryBase<Dipendenti>, RepositoryBase<Dipendenti>>();
 builder.Services.AddScoped<IDipendentiRepository,  DipendentiRepository>();
 builder.Services.AddScoped<IServiceBase<Dipendenti>, ServicesBase<Dipendenti>>();
 builder.Services.AddScoped<IDipendentiService, DipendentiService>();
+//Sedi
 builder.Services.AddScoped<IRepositoryBase<Sedi>, RepositoryBase<Sedi>>();
 builder.Services.AddScoped<ISediRepository, SediRepository>();
 builder.Services.AddScoped<IServiceBase<Sedi>, ServicesBase<Sedi>>();
 builder.Services.AddScoped<ISediService, SediService>();
+//Skills
+builder.Services.AddScoped<IRepositoryBase<Skills>, RepositoryBase<Skills>>();
+builder.Services.AddScoped<ISkillsRepository, SkillsRepository>();
+builder.Services.AddScoped<IServiceBase<Skills>, ServicesBase<Skills>>();
+builder.Services.AddScoped<ISkillsService, SkillsService>();
 //Mansioni
 builder.Services.AddScoped<IRepositoryBase<Mansioni>, RepositoryBase<Mansioni>>();
 builder.Services.AddScoped<IMansioniRepository, MansioniRepository>();

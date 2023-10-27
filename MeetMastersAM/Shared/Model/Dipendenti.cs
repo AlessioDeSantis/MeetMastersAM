@@ -47,7 +47,7 @@ namespace MeetMastersAM.Shared.Model
 
         public virtual ICollection<Dipendenti_Skills>? Dipendenti_Skills { get; set; } = new List<Dipendenti_Skills>();
 
-        public virtual ICollection<Mansioni>? Mansioni { get; set; } = new List<Mansioni>();
+        public virtual ICollection<Dipendenti_Mansioni>? Mansioni_Dipendenti { get; set; } = new List<Dipendenti_Mansioni>();
 
         public virtual ICollection<Colloqui>? ColloquiDipendenti { get; set; } = new List<Colloqui>();
 

@@ -5,9 +5,17 @@ namespace MeetMastersAM.Server.Services
 {
     public class BenefitsService : ServicesBase<Benefits> , IBenefitsServices
     {
-        public BenefitsService(IRepositoryBase<Benefits> data) : base(data) 
+        private IBenefitRepository _benefitRepository;
+        public BenefitsService(IRepositoryBase<Benefits> data, IBenefitRepository benefitRepository) : base(data)
         {
-            
+
+            _benefitRepository = benefitRepository;
+
+        }
+
+        public async Task<IEnumerable<Benefits>> GetDetailsBenefits()
+        {
+            return await _benefitRepository.GetDetailsBenefitAsync();
         }
     }
 }

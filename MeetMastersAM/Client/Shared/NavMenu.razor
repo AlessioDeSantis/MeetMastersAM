@@ -23,15 +23,16 @@
             </div>
             <div class="nav-item px-3">
                 <Dropdown>
-                    <DropdownToggleButton Color="ButtonColor.Secondary">Sedi</DropdownToggleButton>
+                    <DropdownToggleButton>Sedi</DropdownToggleButton>
                     <DropdownMenu>
 
-                        @foreach (var item in _sedi)
+                        @foreach (var item in _sedi!)
                         {
                             <DropdownItem @onclick="() => VisualizzaSede(item.SedeId)">@item.DescrizioneSede</DropdownItem>
                         }
+
                         <hr />
-                        <DropdownItem To="visualizzaSede" Type="ButtonType.Link">Aggiungi Sede</DropdownItem>
+                        <DropdownItem To="aggiungiSede" Type="ButtonType.Link">Aggiungi Sede</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>

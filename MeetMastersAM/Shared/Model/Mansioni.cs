@@ -18,7 +18,7 @@ namespace MeetMastersAM.Shared.Model
 
         public virtual ICollection<Esperienze>? Esperienze { get; set; } = new List<Esperienze>();
 
-        public virtual ICollection<Dipendenti>? Dipendenti { get; set; } = new List<Dipendenti>();
+        public virtual ICollection<Dipendenti_Mansioni>? Dipendenti_Mansioni { get; set; } = new List<Dipendenti_Mansioni>();
 
     }
 }

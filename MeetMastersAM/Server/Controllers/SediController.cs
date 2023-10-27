@@ -31,6 +31,41 @@ public class SediController : ControllerBase
 
         return Ok(item);
     }
+
+    [HttpPost("aggiungi")]
+    public async Task<ActionResult<Sedi>> Post(Sedi sedi)
+    {
+        await _sediService.CreateElement(sedi);
+        return CreatedAtAction("Indice", new { id = sedi.SedeId }, sedi);
+    }
+
+    [HttpPut("modifica/{id}")]
+    public async Task<IActionResult> Put(int id, Sedi sedi)
+    {
+
+        if (id != sedi.SedeId)
+        {
+            return BadRequest();
+        }
+
+        await _sediService.UpdateElement(sedi);
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var item = await _sediService.GetElementById(id);
+        if (item == null)
+        {
+            return NotFound();
+        }
+
+        await _sediService.DeleteElement(id);
+
+        return NoContent();
+    }
 }
 
 
