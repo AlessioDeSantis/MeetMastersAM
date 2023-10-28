@@ -4,7 +4,7 @@
 @inject NavigationManager Navigation
 
 
-<nav class="navbar navbar-expand-lg bg-water shadow" @onclick="ToggleNavMenu">
+<nav class="navbar navbar-expand-lg bg-water text-light shadow" @onclick="ToggleNavMenu">
     <div class="container-fluid">
         <a class="navbar-brand" href=""><img class="logo" src="image/Logo_biancoMM.png" /></a>
         <button class="navbar-toggler" @onclick="ToggleNavMenu" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,12 +13,16 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Home
+                    <div class="mx-auto">
+                        <i class="fa-solid fa-home"></i> Home
+                    </div>
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="dipendentilista">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Dipendente
+                    <div class="mx-auto">
+                        <i class="fa-solid fa-plus"></i> Dipendenti
+                    </div>
                 </NavLink>
             </div>
             <div class="nav-item px-3">
@@ -28,9 +32,10 @@
 
                         @foreach (var item in _sedi!)
                         {
-                            <DropdownItem @onclick="() => VisualizzaSede(item.SedeId)">@item.DescrizioneSede</DropdownItem>
+                            <DropdownItem @onclick="() => VisualizzaSede(item.SedeId)">
+                                @item.DescrizioneSede 
+                            </DropdownItem>
                         }
-
                         <hr />
                         <DropdownItem To="aggiungiSede" Type="ButtonType.Link">Aggiungi Sede</DropdownItem>
                     </DropdownMenu>
@@ -38,7 +43,9 @@
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="creaoggetti">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Crea Oggetti
+                    <div class="mx-auto">
+                        <i class="fa-solid fa-gears"></i> Crea Oggetti
+                    </div>
                 </NavLink>
             </div>
         </div>
@@ -74,7 +81,9 @@
 
     public async Task<Sedi> GetSediId(int id)
     {
-        return await Client.GetFromJsonAsync<Sedi>($"api/Sedi/{id}");
+        var result = await Client.GetFromJsonAsync<Sedi>($"api/Sedi/{id}");
+        return result ?? new Sedi();
+
     }
 
     public async Task VisualizzaSede(int id)
@@ -82,6 +91,11 @@
         Sede = await GetSediId(id);
         var url = $"visualizzaSede/{id}";
         Navigation.NavigateTo(url);
+    }
+
+    public async Task ModificaSediAsync(int id)
+    {
+        Sede = await GetSediId(id);
     }
 
 

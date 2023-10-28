@@ -21,6 +21,23 @@ a, .btn-link {
     color: #0071c1;
 }
 
+p, a{
+    text-decoration: none !important; 
+    color: black !important;
+}
+
+.nav-link{
+    color: white !important;
+}
+
+.nav-item{
+    color: white !important;
+}
+
+ul, li{
+    list-style: none;
+}
+
 .title{
     font-size: 100px;
 }

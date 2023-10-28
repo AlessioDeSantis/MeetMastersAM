@@ -5,10 +5,14 @@
 <div class="container-sedi">
     <div class="container my-5">
         <div class="row">
-            <h2>Sede di @_sede!.DescrizioneSede</h2>
-            <p>Puoi trovarci in @_sede!.IndirizzoSede</p>
-            <a href="mailto:@_sede!.EmailSede">Invia un Email a: @_sede!.EmailSede</a>
-            <a href="tel:@_sede!.RecapitoSede">Chiama: +39 @_sede!.RecapitoSede</a>
+            <div class="col-4">
+                <h2>Sede di @_sede!.DescrizioneSede</h2>
+            </div>
+            <div class="col-8">
+                <p><a class="text-black" href="https://www.google.com/maps/search/?q=@_sede!.IndirizzoSede"><i class="fa-solid fa-map-pin"></i> @_sede!.IndirizzoSede</a></p>
+                <p><a class="text-black" href="mailto:@_sede!.EmailSede"><i class="fa-solid fa-envelope"></i> @_sede!.EmailSede</a></p>
+                <p><a class="text-black" href="tel:@_sede!.RecapitoSede"><i class="fa-solid fa-phone"></i> +39 @_sede!.RecapitoSede</a></p>
+            </div>        
         </div>
     </div>
 
@@ -18,12 +22,21 @@
             <div class="col-4">
                 <div class="card card-size my-3 shadow mx-auto p-2">
                     <div class="row p-2">
-                        <div class="bg-navy w-100 text-white col-12 rounded">
+                        <div class="bg-navy w-100 text-white col-12 rounded d-flex justify-content-between">
                             <h5>@dipendente.NomeDipendente @dipendente.CognomeDipendente</h5>
+
+                                <ul class="d-flex mx-3">
+                                    <li><i class="fa-brands fa-instagram"></i></li>
+                                    <li class="mx-3"><i class="fa-brands fa-github"></i></li>
+                                    <li><i class="fa-brands fa-linkedin-in"></i></li>
+                                </ul>
                         </div>
                         <div class="col-3 mt-3 mx-auto">
                             <img class="profile-card" src="image/@(dipendente.GenereDipendente! == "Donna" ? "female" : "male")_profile.webp" style="width: 90px; height: 80px;" />
-
+                            @if (dipendente.IsReferent)
+                            {
+                                <span class="position-absolute text-success"><i class="fa-solid fa-circle-check"></i></span>
+                            }
                         </div>
                         <div class="col-8 mx-auto mt-3">
                             @* <div class="span-div d-flex">
@@ -33,8 +46,10 @@
                                 }
                             </div> *@
 
-                            <p><i class="fa-solid fa-phone"></i> <a href="tel:@dipendente.RecapitoDipendente">+39 @dipendente.RecapitoDipendente</a></p>
-                            <p><i class="fa-solid fa-location-dot"></i> @dipendente.IndirizzoDipendente</p>
+                            <p><i class="fa-solid fa-phone"></i> <a class="text-black" href="tel:@dipendente.RecapitoDipendente">+39 @dipendente.RecapitoDipendente</a></p>
+                            <hr/>
+                            <p><i class="fa-solid fa-location-dot"></i> <a class="text-black" href="https://www.google.com/maps/search/?q=@dipendente.IndirizzoDipendente" target="_blank">@dipendente.IndirizzoDipendente</a></p>
+                            <hr/>
                             <p><i class="fa-regular fa-calendar"></i> @dipendente.DataNascitaDipendente.ToShortDateString()</p>
                         </div>
                     </div>
@@ -73,4 +88,8 @@
     {
         _listaDipendenti = await Client.GetFromJsonAsync<List<Dipendenti>>("api/dipendenti/details");
     }
+
+    
+
+    
 }

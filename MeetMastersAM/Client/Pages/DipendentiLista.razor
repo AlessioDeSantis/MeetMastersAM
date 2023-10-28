@@ -58,7 +58,9 @@ else
 
     public async Task<Dipendenti> GetDipendente(int id)
     {
-        return await Client.GetFromJsonAsync<Dipendenti>($"api/dipendenti/{id}");
+        var result = await Client.GetFromJsonAsync<Dipendenti>($"api/dipendenti/{id}");
+        return result ?? new Dipendenti();
+
     }
 
 

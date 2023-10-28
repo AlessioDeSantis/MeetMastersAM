@@ -1,50 +1,61 @@
 ﻿@using MeetMastersAM.Shared.Model
 
-<h2>Dipendenti</h2>
-<button class="btn btn-primary mb-4" @onclick="OnCrea">
-    Crea Dipendente
+<h2 class="mb-3">Dipendenti</h2>
+<button class="btn btn-primary shadow mb-4" @onclick="OnCrea">
+    Crea Dipendente <i class="fa-solid fa-user-plus"></i>
 </button>
-<table class="table">
-    <tr>
-        <th>Nome</th>
-        <th>Cognome</th>
-        <th>Indirizzo</th>
-        <th>Recapito</th>
-        <th>Data di Nascita</th>
-        <th>Genere</th>
-        <th>Sede</th>
-        <th>Referente?</th>
-        <th>Mansione</th>
-    </tr>
-    @foreach (var dipendente in listaDipendente)
-    {
+<table class="table table-striped w-75 shadow border">
+    <thead class="bg-navy text-white">
         <tr>
-            <td>@dipendente.NomeDipendente</td>
-            <td>@dipendente.CognomeDipendente</td>
-            <td>@dipendente.IndirizzoDipendente</td>
-            <td>@dipendente.RecapitoDipendente</td>
-            <td>@dipendente.DataNascitaDipendente.ToShortDateString()</td>
-            <td>@dipendente.GenereDipendente</td>
-            <td>@dipendente.LuogoDiLavoroSedeNavigation!.DescrizioneSede</td>
-            <td>@dipendente.IsReferent</td>
-            @* <td>
-                @foreach (var m in dipendente.Mansioni!)
-                {
-                    @m.NomeMansione
-
-                    <span>, </span>
-                }
-            </td> *@
-            <th>
-                <button class="btn btn-warning" @onclick="() => OnModifica.InvokeAsync(dipendente.DipendenteId)">
-                    Modifica
-                </button>
-                <button class="btn btn-danger" @onclick="() => OnElimina.InvokeAsync(dipendente.DipendenteId)">
-                    Elimina
-                </button>
-            </th>
+            <th></th>
+            <th>Nome completo</th>
+            <th>Indirizzo</th>
+            <th>Recapito</th>
+            <th>Data di Nascita</th>
+            <th>Sede</th>
+            <th>Mansione</th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var dipendente in listaDipendente)
+        {
+            <tr>
+                <td>
+                    @if (dipendente.IsReferent)
+                    {
+                        <p class="text-primary"><i class="fa-solid fa-toggle-on"></i></p>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-toggle-off"></i>
+                    }
+                </td>
+                <td>@dipendente.NomeDipendente @dipendente.CognomeDipendente</td>
+                <td>@dipendente.IndirizzoDipendente</td>
+                <td>@dipendente.RecapitoDipendente</td>
+                <td>@dipendente.DataNascitaDipendente.ToShortDateString()</td>
+                <td>@dipendente.LuogoDiLavoroSedeNavigation!.DescrizioneSede</td>
+                <td>
+            @* @foreach (var m in dipendente.Mansioni!)
+            {
+            @m.NomeMansione
+
+            <span>, </span>
+            } *@
+            </td>
+                <td>
+                    <button class="btn text-warning" @onclick="() => OnModifica.InvokeAsync(dipendente.DipendenteId)">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </button>
+                    <button class="btn text-danger" @onclick="() => OnElimina.InvokeAsync(dipendente.DipendenteId)">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+
+    </tbody>
 </table>
 
 @code {

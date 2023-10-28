@@ -2,7 +2,7 @@
 @inject HttpClient Client
 @page "/aggiungiSede"
 
-<h3>Nuova Skill <i class="fa-solid fa-ranking-star"></i></h3>
+<h3>Nuova Sede</h3>
 
 <EditForm Model="@sede"
           class="col-6">
@@ -35,14 +35,17 @@
         <InputSelect id="referente" @bind-Value="sede!.ReferenteId" class="form-control">
             <option>Seleziona referente...</option>
             
-            @foreach (var referente in _dipendenti)
+            @foreach (var referente in _dipendenti!)
             {
-                <option value="@referente!.DipendenteId">@referente!.NomeDipendente @referente!.CognomeDipendente</option>
+                @if(referente.IsReferent)
+                {
+                    <option value="@referente!.DipendenteId">@referente!.NomeDipendente @referente!.CognomeDipendente</option>
+                }
             }
         </InputSelect>
     </div>
 
-    <button type="submit" @onclick="SalvaSede" class="btn btn-success mb-3">Salva <i class="fa-solid fa-circle-check"></i></button>
+    <button type="submit" @onclick="SalvaSede" class="btn btn-primary mb-3">Salva</button>
 
 </EditForm>
 
@@ -50,6 +53,12 @@
 @code {
     public Sedi? sede = new();
     public List<Dipendenti>? _dipendenti = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetDipendenti();
+    }
 
     public async Task GetDipendenti()
     {

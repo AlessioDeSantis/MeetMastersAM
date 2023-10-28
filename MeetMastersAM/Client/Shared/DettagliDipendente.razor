@@ -48,7 +48,7 @@
         <InputSelect id="sede" @bind-Value="dipendenti!.SedeId" class="form-control">
             <option>Seleziona Sede...</option>
 
-            @foreach (var sede in Sedi)
+            @foreach (var sede in Sedi!)
             {
                 <option value="@sede!.SedeId">@sede!.DescrizioneSede</option>
             }

@@ -3,10 +3,10 @@
 @inject HttpClient Client
 
 
-<h3>Crea Oggetti</h3>
+<h3 class="mb-3">Gestisci elementi <i class="fa-solid fa-gears"></i></h3>
 
-<div class="my-3">
-    <Accordion>
+<div class="my-5">
+    <Accordion Class="shadow">
         <AccordionItem Title="Mansioni">
             <Content>
                 <div class="row shadow border">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-6 p-2">
                         <table class="table table-striped">
-                            <thead>
+                            <thead class="bg-navy text-white">
                                 <tr>
                                     <th class="col-10">Mansione</th>
                                     <th>Azioni</th>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-6 p-2">
                         <table class="table table-striped">
-                            <thead>
+                            <thead class="bg-navy text-white">
                                 <tr>
                                     <th class="col-10">Benefit</th>
                                     <th>Azioni</th>
@@ -104,11 +104,11 @@
                     </div>
                     <div class="col-6 p-2">
                         <table class="table table-striped">
-                            <thead>
+                            <thead class="bg-navy text-white">
                                 <tr>
+                                    <th></th>
                                     <th>Skill</th>
                                     <th>Tipo</th>
-                                    <th>Attivo</th>
                                     <th>Azioni</th>
                                 </tr>
                             </thead>
@@ -118,9 +118,17 @@
                                     @foreach (var skill in visibleSkills)
                                     {
                                         <tr class="mb-2">
+                                            <td>@if (skill!.Attivo)
+                                                {
+                                                    <p class="text-primary"><i class="fa-solid fa-toggle-on"></i></p>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fa-solid fa-toggle-off"></i>
+                                                }
+                                            </td>
                                             <td>@skill!.DescrizioneSkill</td>
                                             <td>@skill!.TipoSkill</td>
-                                            <td>@skill!.Attivo</td>
                                             <td class="align-items-end">
                                                 <button class="btn text-warning" @onclick="() => ModificaSkillsAsync(skill!.SkillId)">
                                                     <i class="fa-solid fa-gear"></i>
