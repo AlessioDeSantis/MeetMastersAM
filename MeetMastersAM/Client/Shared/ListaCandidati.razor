@@ -1,0 +1,53 @@
+﻿@using MeetMastersAM.Shared.Model
+
+<h2 class="mb-3">Candidati</h2>
+<button class="btn btn-primary shadow mb-4" @onclick="OnCrea">
+    Crea Candidati <i class="fa-solid fa-user-plus"></i>
+</button>
+<table class="table table-striped w-75 shadow border">
+    <thead class="bg-navy text-white">
+        <tr>
+            <th>Nome completo</th>
+            <th>Recapito</th>
+            <th>Email</th>
+            <th>Nascita</th>
+            <th>Residenza</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var candidato in listaCandidati)
+        {
+            <tr>
+                <td>@candidato.NomeCandidato @candidato.CognomeCandidato</td>
+                <td>@candidato.RecapitoCandidato</td>
+                <td>@candidato.EmailCandidato</td>
+                <td>@candidato.ComuniNascitaNavigation!.NomeComune</td>
+                <td>@candidato.ComuniResidenzaNavigation!.NomeComune</td>
+                <td>
+                    <button class="btn text-warning" @onclick="() => OnModifica.InvokeAsync(candidato!.CandidatoId)">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </button>
+                    <button class="btn text-danger" @onclick="() => OnElimina.InvokeAsync(candidato!.CandidatoId)">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public List<Candidati> listaCandidati { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback OnCrea { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnModifica { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnElimina { get; set; }
+}

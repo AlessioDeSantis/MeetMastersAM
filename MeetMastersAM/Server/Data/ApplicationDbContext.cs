@@ -50,6 +50,11 @@ namespace MeetMastersAM.Server.Data
                       .HasForeignKey(p => p.ComuneResidenzaId)
                       .IsRequired()
                       .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.TipoContrattoNavigation)
+                      .WithMany(p => p.Candidati)
+                      .HasForeignKey(p => p.TipoContrattoId)
+                      .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Colloqui>(entity =>
@@ -100,6 +105,29 @@ namespace MeetMastersAM.Server.Data
                       .OnDelete(DeleteBehavior.Cascade);
             });
 
+            modelBuilder.Entity<Comuni>(entity =>
+            {
+                entity.HasOne(p => p.ProvinciaNavigation)
+                    .WithMany(p => p.Comuni)
+                    .HasForeignKey(p => p.ProvinciaId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Province>(entity =>
+            {
+                entity.HasOne(p => p.RegioneNavigation)
+                    .WithMany(p => p.Province)
+                    .HasForeignKey(p => p.RegioneId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Regioni>(entity =>
+            {
+                entity.HasOne(p => p.NazioneNavigation)
+                    .WithMany(p => p.Regioni)
+                    .HasForeignKey(p => p.NazioneId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
 
         }
     }

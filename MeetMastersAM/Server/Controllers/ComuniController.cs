@@ -13,5 +13,12 @@ namespace MeetMastersAM.Server.Controllers
         {
             _comuniService = comuniService;
         }
+
+        [HttpGet("details")]
+        public async Task<IActionResult> GetDetails()
+        {
+            var items = await _comuniService.GetDetailsComuni();
+            return Ok(items);
+        }
     }
 }

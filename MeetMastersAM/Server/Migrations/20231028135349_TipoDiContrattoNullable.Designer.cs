@@ -4,6 +4,7 @@ using MeetMastersAM.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeetMastersAM.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231028135349_TipoDiContrattoNullable")]
+    partial class TipoDiContrattoNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,13 +93,16 @@ namespace MeetMastersAM.Server.Migrations
                     b.Property<int?>("TipoContrattoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TipoContrattoNavigationTipoContrattoId")
+                        .HasColumnType("int");
+
                     b.HasKey("CandidatoId");
 
                     b.HasIndex("ComuneNascitaId");
 
                     b.HasIndex("ComuneResidenzaId");
 
-                    b.HasIndex("TipoContrattoId");
+                    b.HasIndex("TipoContrattoNavigationTipoContrattoId");
 
                     b.ToTable("Candidati");
                 });
@@ -699,8 +705,9 @@ namespace MeetMastersAM.Server.Migrations
 
                     b.HasOne("MeetMastersAM.Shared.Model.TipiContratto", "TipoContrattoNavigation")
                         .WithMany("Candidati")
-                        .HasForeignKey("TipoContrattoId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("TipoContrattoNavigationTipoContrattoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ComuniNascitaNavigation");
 

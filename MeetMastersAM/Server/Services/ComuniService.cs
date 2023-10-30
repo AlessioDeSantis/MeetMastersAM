@@ -5,9 +5,17 @@ namespace MeetMastersAM.Server.Services
 {
     public class ComuniService : ServicesBase<Comuni>, IComuniService
     {
-        public ComuniService(IRepositoryBase<Comuni> data) : base(data)
+        private readonly IComuniRepository _repository; 
+        public ComuniService(IRepositoryBase<Comuni> data, IComuniRepository repository) : base(data)
         {
-            
+
+            _repository = repository;
+
+        }
+
+        public async Task<IEnumerable<Comuni>> GetDetailsComuni()
+        {
+            return await _repository.GetDetailsComuniAsync();
         }
     }
 }

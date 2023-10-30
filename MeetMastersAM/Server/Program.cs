@@ -26,11 +26,36 @@ builder.Services.AddScoped<IRepositoryBase<Benefits>, RepositoryBase<Benefits>>(
 builder.Services.AddScoped<IBenefitRepository, BenefitRepository>();
 builder.Services.AddScoped<IServiceBase<Benefits>, ServicesBase<Benefits>>();
 builder.Services.AddScoped<IBenefitsServices, BenefitsService>();
+//Candidati
+builder.Services.AddScoped<IRepositoryBase<Candidati>, RepositoryBase<Candidati>>();
+builder.Services.AddScoped<ICandidatiRepository, CandidatiRepository>();
+builder.Services.AddScoped<IServiceBase<Candidati>, ServicesBase<Candidati>>();
+builder.Services.AddScoped<ICandidatiService, CandidatiService>();
+//Comuni
+builder.Services.AddScoped<IRepositoryBase<Comuni>, RepositoryBase<Comuni>>();
+builder.Services.AddScoped<IComuniRepository, ComuniRepository>();
+builder.Services.AddScoped<IServiceBase<Comuni>, ServicesBase<Comuni>>();
+builder.Services.AddScoped<IComuniService, ComuniService>();
 //Dipendenti
 builder.Services.AddScoped<IRepositoryBase<Dipendenti>, RepositoryBase<Dipendenti>>();
 builder.Services.AddScoped<IDipendentiRepository,  DipendentiRepository>();
 builder.Services.AddScoped<IServiceBase<Dipendenti>, ServicesBase<Dipendenti>>();
 builder.Services.AddScoped<IDipendentiService, DipendentiService>();
+//Nazioni
+builder.Services.AddScoped<IRepositoryBase<Nazioni>, RepositoryBase<Nazioni>>();
+builder.Services.AddScoped<INazioneRepository, NazioniRepository>();
+builder.Services.AddScoped<IServiceBase<Nazioni>, ServicesBase<Nazioni>>();
+builder.Services.AddScoped<INazioniService, NazioniService>();
+//Province
+builder.Services.AddScoped<IRepositoryBase<Province>, RepositoryBase<Province>>();
+builder.Services.AddScoped<IProvinceRepository, ProvinceRepository>();
+builder.Services.AddScoped<IServiceBase<Province>, ServicesBase<Province>>();
+builder.Services.AddScoped<IProvinceService, ProvinceService>();
+//Regioni
+builder.Services.AddScoped<IRepositoryBase<Regioni>, RepositoryBase<Regioni>>();
+builder.Services.AddScoped<IRegioniRepository, RegioniRepository>();
+builder.Services.AddScoped<IServiceBase<Regioni>, ServicesBase<Regioni>>();
+builder.Services.AddScoped<IRegioniService, RegioniService>();
 //Sedi
 builder.Services.AddScoped<IRepositoryBase<Sedi>, RepositoryBase<Sedi>>();
 builder.Services.AddScoped<ISediRepository, SediRepository>();

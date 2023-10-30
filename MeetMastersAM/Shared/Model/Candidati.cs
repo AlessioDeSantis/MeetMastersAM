@@ -27,11 +27,11 @@ namespace MeetMastersAM.Shared.Model
 
         [Required(ErrorMessage = "Questo campo è richiesto!")]
         [Display(Name = "Comune di nascita")]
-        public int ComuneNascitaId { get; set; }
+        public int? ComuneNascitaId { get; set; }
 
         [Required(ErrorMessage = "Questo campo è richiesto!")]
         [Display(Name = "Comune di residenza")]
-        public int ComuneResidenzaId { get; set; }
+        public int? ComuneResidenzaId { get; set; }
 
         [Required]
         [Phone(ErrorMessage = "Questo campo è richiesto!")]
@@ -43,7 +43,6 @@ namespace MeetMastersAM.Shared.Model
         [Display(Name = "Email")]
         public string? EmailCandidato { get; set; }
 
-        [Required]
         [Display(Name = "Tipo di Contratto")]
         public int? TipoContrattoId { get; set; }
 

@@ -1,0 +1,88 @@
+﻿@page "/aggiungiCandidato"
+@using MeetMastersAM.Shared.Model
+
+
+<EditForm Model="@candidati"
+          OnValidSubmit="OnSalvaCandidato" class="col-6">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-3">
+        <label for="nomeC">Nome:</label>
+        <InputText id="nomeC" @bind-Value="candidati!.NomeCandidato" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="cognomeC">Cognome:</label>
+        <InputText id="cognomeC" @bind-Value="candidati.CognomeCandidato" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="comunenascita">Comune di Nascita:</label>
+        <InputSelect id="comunenascita" @bind-Value="candidati.ComuneNascitaId" class="form-control">
+            <option>Seleziona Comune...</option>
+
+            @foreach (var cNascita in ComuniNascita!)
+            {
+                <option value="@cNascita!.ComuneId">@cNascita!.NomeComune</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="comuneresidenza">Comune di Residenza:</label>
+        <InputSelect id="comuneresidenza" @bind-Value="candidati.ComuneResidenzaId" class="form-control">
+            <option>Seleziona Comune...</option>
+
+            @foreach (var cResidenza in ComuniResidenza!)
+            {
+                <option value="@cResidenza!.ComuneId">@cResidenza!.NomeComune</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="recapitoC">Recapito:</label>
+        <InputText typeof="phone" id="recapitoC" @bind-Value="candidati.RecapitoCandidato" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="emailC">Email:</label>
+        <InputText typeof="email" id="emailC" @bind-Value="candidati.EmailCandidato" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salva</button>
+
+    @* <button type="button" class="btn btn-warning" @onclick="OnAnnulla">Annulla</button> *@
+</EditForm>
+
+@code {
+    [Parameter]
+    public Candidati? candidati { get; set; }
+
+    [Parameter]
+    public int candidatoId { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public List<Comuni> ComuniResidenza { get; set; } = null!;
+
+    [Parameter]
+    public List<Comuni> ComuniNascita { get; set; } = null!;
+
+    [Parameter]
+    public List<Province> ProvinceRes { get; set; } = null!;
+
+    [Parameter]
+    public List<Province> ProvinceNas { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback OnSalvaCandidato { get; set; }
+
+    [Parameter]
+    public EventCallback OnAnnulla { get; set; }
+}
+

@@ -1,0 +1,110 @@
+﻿@page "/candidatiLista"
+@inject HttpClient Client
+@inject NavigationManager navigation
+@using MeetMastersAM.Shared.Model
+@using MeetMastersAM.Client.Shared
+
+
+
+@if (!isAddC)
+{
+    <div>
+        <ListaCandidati listaCandidati="_candidati" OnCrea="() => isAddC = true" OnElimina="EliminaCandidato" OnModifica="ModificaCandidato" />
+    </div>
+}
+else
+{
+    <h2>@TitlePage Candidato</h2>
+    <div class="row">
+        <DettagliCandidato candidati="CandidatoCorrente" ComuniNascita="_comuniNas" ProvinceNas="_provinceNas" ComuniResidenza="_comuniRes" OnSalvaCandidato="() => SalvaCandidato(CandidatoCorrente)" OnAnnulla="AnnullaOperazione" Title="TitlePage" candidatoId="_candidatoId" />
+    </div>
+}
+
+@code {
+    private List<Candidati>? _candidati = new();
+    private List<Comuni>? _comuniRes = new();
+    private List<Comuni>? _comuniNas = new();
+    //Province
+    private List<Province>? _provinceNas = new();
+    public int _candidatoId { get; set; }
+    public Candidati? CandidatoCorrente = new();
+    private bool isAddC;
+    protected string TitlePage = "Aggiungi";
+
+    public List<Candidati> ListaCandidati { get; set; } = new List<Candidati>();
+    public List<Comuni> ListaComuniNas { get; set; } = new List<Comuni>();
+    public List<Comuni> ListaComuniRes { get; set; } = new List<Comuni>();
+    public List<Regioni> ListaRegioniNas { get; set; } = new List<Regioni>();
+    public List<Province> ListaProvince { get; set; } = new List<Province>();
+    public List<Nazioni> ListaNazioni { get; set; } = new List<Nazioni>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await GetCandidati();
+        await GetComuniN();
+        await GetComuniR();
+    }
+
+    public async Task GetCandidati()
+    {
+        _candidati = await Client.GetFromJsonAsync<List<Candidati>>("api/candidati/details");
+    }
+
+    public async Task GetComuniN()
+    {
+        _comuniNas = await Client.GetFromJsonAsync<List<Comuni>>("api/comuni/details");
+    }
+
+    public async Task GetComuniR()
+    {
+        _comuniRes = await Client.GetFromJsonAsync<List<Comuni>>("api/comuni/details");
+    }
+
+    public async Task<Candidati> GetCandidato(int id)
+    {
+        var result = await Client.GetFromJsonAsync<Candidati>($"api/candidati/{id}");
+        return result ?? new Candidati();
+
+    }
+
+    public async Task SalvaCandidato(Candidati candidato)
+    {
+
+        if (candidato.CandidatoId == 0)
+        {
+            await Client.PostAsJsonAsync("api/candidati/aggiungi", candidato);
+        }
+        else
+        {
+            await Client.PutAsJsonAsync($"api/candidati/modifica/{candidato.CandidatoId}", candidato);
+        }
+        candidato = new Candidati();
+        isAddC = false;
+        await GetCandidati();
+        await GetComuniN();
+        await GetComuniR();
+        CandidatoCorrente = new();
+
+    }
+
+    public async Task AnnullaOperazione()
+    {
+        await Task.Delay(0); // Puoi rimuovere questa riga se l'operazione non è asincrona
+        this.CandidatoCorrente = null!;
+    }
+
+    public async Task EliminaCandidato(int id)
+    {
+        await Client.DeleteAsync($"api/candidati/{id}");
+        await GetCandidati();
+    }
+
+    public async Task ModificaCandidato(int id)
+    {
+        CandidatoCorrente = await GetCandidato(id);
+        isAddC = true;
+    }
+}
+
+
