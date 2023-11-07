@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MeetMastersAM.Shared.Model
@@ -22,6 +24,8 @@ namespace MeetMastersAM.Shared.Model
         [MaxLength(50, ErrorMessage = "Hai superato il numero massimo di caratteri(50)")]
         [RegularExpression("^[A-Za-z\\s]+$", ErrorMessage = "Inserire solo lettere e spazi.")]
         public string? CognomeDipendente { get; set; }
+        [NotMapped]
+        public string? NomeCompleto { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Questo campo è richiesto!")]
         public string? IndirizzoDipendente { get; set; }
@@ -39,6 +43,18 @@ namespace MeetMastersAM.Shared.Model
         public int? SedeId { get; set; }
 
         public bool IsReferent {  get; set; }
+
+        [Display(Name = "Profilo Linkedin")]
+        [RegularExpression(@"^https?://(www\.)?linkedin\.com/in/[^/]+/?$", ErrorMessage = "Il link inserito non è valido per questo social")]
+        public string? ProfiloLinkedin { get; set; }
+
+        [Display(Name = "Profilo Instagram")]
+        [RegularExpression(@"^https?://(www\.)?instagram\.com/[^/]+/?$", ErrorMessage = "Il link inserito non è valido per questo social")]
+        public string? ProfiloInstagram { get; set; }
+
+        [Display(Name = "Profilo Github")]
+        [RegularExpression(@"^https?://(www\.)?github\.com/[^/]+/?$", ErrorMessage = "Il link inserito non è valido per questo social")]
+        public string? ProfiloGithub { get; set; }
 
         public virtual Contratti? ContrattoNavigation { get; set; } = null!;
 

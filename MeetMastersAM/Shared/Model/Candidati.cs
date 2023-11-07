@@ -25,6 +25,9 @@ namespace MeetMastersAM.Shared.Model
         [Display(Name = "Cognome")]
         public string? CognomeCandidato { get; set; }
 
+        [Display(Name = "Immagine Profilo")]
+        public byte[]? ImmagineProfilo { get; set; }
+
         [Required(ErrorMessage = "Questo campo è richiesto!")]
         [Display(Name = "Comune di nascita")]
         public int? ComuneNascitaId { get; set; }
@@ -46,11 +49,11 @@ namespace MeetMastersAM.Shared.Model
         [Display(Name = "Tipo di Contratto")]
         public int? TipoContrattoId { get; set; }
 
-        public virtual Comuni ComuniNascitaNavigation { get; set; } = null!;
+        public virtual Comuni? ComuniNascitaNavigation { get; set; } = null!;
 
-        public virtual Comuni ComuniResidenzaNavigation { get; set; } = null!;
+        public virtual Comuni? ComuniResidenzaNavigation { get; set; } = null!;
 
-        public virtual TipiContratto TipoContrattoNavigation { get; set; } = null!;
+        public virtual TipiContratto? TipoContrattoNavigation { get; set; } = null!;
 
         public virtual ICollection<Esperienze> Esperienze { get; set;} = new List<Esperienze>();
 

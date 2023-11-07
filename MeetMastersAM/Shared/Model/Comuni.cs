@@ -15,8 +15,8 @@ namespace MeetMastersAM.Shared.Model
         [Display(Name = "Comune")]
         [Required]
         public string? NomeComune { get; set; }
-        public int ProvinciaId { get; set; }
-        public virtual Province ProvinciaNavigation { get; set; } = null!;
+        public int? ProvinciaId { get; set; }
+        public virtual Province? ProvinciaNavigation { get; set; } = null!;
         public virtual ICollection<Candidati> CandidatiNascita { get; set; } = new List<Candidati>();
         public virtual ICollection<Candidati> CandidatiResidenza { get; set; } = new List<Candidati>();
 

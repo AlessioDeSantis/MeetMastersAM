@@ -1,5 +1,7 @@
 ﻿@page "/aggiungi"
 @using MeetMastersAM.Shared.Model
+@using MudBlazor
+
 
 
 <EditForm Model="@dipendenti"
@@ -55,17 +57,25 @@
         </InputSelect>
     </div>
 
+    <div class="form-group mb-3">
+        <label for="linkedin">Linkedin:</label>
+        <InputText id="linkedin" @bind-Value="dipendenti!.ProfiloLinkedin" class="form-control" />
+        <label for="instagram">Instagram:</label>
+        <InputText id="instagram" @bind-Value="dipendenti!.ProfiloInstagram" class="form-control" />
+        <label for="github">Github:</label>
+        <InputText id="github" @bind-Value="dipendenti!.ProfiloGithub" class="form-control" />
+    </div>
+
     @* <div class="form-group mb-3">
         <label for="mansioni">Mansione:</label>
-        <InputSelect id="mansioni" @bind-Value="dipendenti!.Mansioni" class="form-control" multiple>
-            <option>Seleziona Mansioni...</option>
-
-            @foreach (var mansione in Mansioni)
+        <MudSelect T="Dipendenti_Mansioni" Label="Mansioni" MultiSelection="true" @bind-Value="dipendenti!.Mansioni_Dipendenti">
+            @foreach (var m in _Mansioni!)
             {
-                <option value="@mansione!.MansioneId">@mansione!.NomeMansione</option>
+                <MudSelectItem T="int" Value="@m.MansioneId">@m.NomeMansione</MudSelectItem>
             }
-        </InputSelect>
+        </MudSelect>
     </div> *@
+
 
     <div class="form-group mb-3">
         <label for="referente">Sei un referente?:  <InputCheckbox id="referente" @bind-Value="dipendenti!.IsReferent" /></label>
@@ -73,7 +83,7 @@
 
 
     <button type="submit" class="btn btn-primary">Salva</button>
-    @* <button type="button" class="btn btn-warning" @onclick="OnAnnulla">Annulla</button> *@
+    <button type="button" class="btn btn-warning" @onclick="OnAnnulla">Annulla</button>
 </EditForm>
 
 @code {
@@ -90,11 +100,17 @@
     public List<Sedi>? Sedi { get; set; }
 
     [Parameter]
-    public List<Mansioni> Mansioni { get; set; } = null!;
+    public List<Mansioni>? _Mansioni { get; set; }
 
     [Parameter]
     public EventCallback OnSalva { get; set; }
 
     [Parameter]
     public EventCallback OnAnnulla { get; set; }
+
+    private string value { get; set; } = "Nothing selected";
+
+    private IEnumerable<string> options { get; set; } = new HashSet<string>();
+
+
 }

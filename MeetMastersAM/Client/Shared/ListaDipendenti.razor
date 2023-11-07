@@ -1,9 +1,14 @@
 ﻿@using MeetMastersAM.Shared.Model
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@inject HttpClient Client
+
 
 <h2 class="mb-3">Dipendenti</h2>
 <button class="btn btn-primary shadow mb-4" @onclick="OnCrea">
     Crea Dipendente <i class="fa-solid fa-user-plus"></i>
 </button>
+
 <table class="table table-striped w-75 shadow border">
     <thead class="bg-navy text-white">
         <tr>
@@ -18,9 +23,9 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var dipendente in listaDipendente)
+        @foreach (var dipendente in listaDipendente!)
         {
-            <tr>
+            <tr class="rigaDipendente">
                 <td>
                     @if (dipendente.IsReferent)
                     {
@@ -37,19 +42,22 @@
                 <td>@dipendente.DataNascitaDipendente.ToShortDateString()</td>
                 <td>@dipendente.LuogoDiLavoroSedeNavigation!.DescrizioneSede</td>
                 <td>
-            @* @foreach (var m in dipendente.Mansioni!)
-            {
-            @m.NomeMansione
+                    @* @foreach (var m in dipendente.Mansioni!)
+                {
+                @m.NomeMansione
 
-            <span>, </span>
-            } *@
-            </td>
-                <td>
-                    <button class="btn text-warning" @onclick="() => OnModifica.InvokeAsync(dipendente.DipendenteId)">
-                        <i class="fa-solid fa-user-pen"></i>
+                <span>, </span>
+                } *@
+                </td>
+                <td class="action-button">
+                    <button title="Modifica info di @dipendente.NomeDipendente" class="btn btn-modifica" @onclick="() => OnModifica.InvokeAsync(dipendente.DipendenteId)">
+                        <i class="fa-solid fa-gear"></i>
                     </button>
-                    <button class="btn text-danger" @onclick="() => OnElimina.InvokeAsync(dipendente.DipendenteId)">
-                        <i class="fa-solid fa-user-xmark"></i>
+                    <button title="Rimuovi @dipendente.NomeDipendente da elenco" class="btn b-elimina" @onclick="() => OnElimina.InvokeAsync(dipendente.DipendenteId)">
+                        <i id="trash" class="fa-regular fa-trash-can"></i>
+                    </button>
+                    <button title="Visualizza dettagli di @dipendente.NomeDipendente" class="btn btn-visualizza" @onclick="() => OnShowModalClick(dipendente)">
+                        <i class="fa-solid fa-eye"></i>
                     </button>
                 </td>
             </tr>
@@ -58,9 +66,96 @@
     </tbody>
 </table>
 
+@if (SelectedDipendente is not null)
+{
+    <Modal @ref="modal" Title="@SelectedDipendente.NomeCompleto">
+        <BodyTemplate>
+            @if (SelectedDipendente != null)
+            {
+                <div class="row border-bottom">
+                    <div class="col-4">
+                        <img class="profile-card" src="image/@(SelectedDipendente.GenereDipendente! == "Donna" ? "female" : "male")_profile.webp" style="width: 90px; height: 80px;" />
+                        @if (SelectedDipendente.IsReferent)
+                        {
+                            <span class="position-absolute text-success"><i class="fa-solid fa-circle-check"></i></span>
+                        }
+                        <div class="d-flex" style="width: 50px;">
+                            @if (SelectedDipendente.ProfiloLinkedin != null && SelectedDipendente.ProfiloLinkedin != "")
+                            {
+                                <p class="mx-2"><a href="@SelectedDipendente.ProfiloLinkedin"><i class="fa-brands fa-linkedin" style="color:#0e76a8 ;"></i></a></p>
+                            }
+                            @if (SelectedDipendente.ProfiloInstagram != null && SelectedDipendente.ProfiloInstagram != "")
+                            {
+                                <p class="mx-2"><a href="@SelectedDipendente.ProfiloInstagram"><i class="fa-brands fa-square-instagram insta"></i></a></p>
+                            }
+                            @if (SelectedDipendente.ProfiloGithub != null && SelectedDipendente.ProfiloGithub != "")
+                            {
+                                <p class="mx-2"><a href="@SelectedDipendente.ProfiloGithub"><i class="fa-brands fa-github" style="color:#171515 ;"></i></a></p>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class="col-4">
+                        <p><strong><i class="fa-solid fa-location-dot"></i></strong> @SelectedDipendente.IndirizzoDipendente</p>
+                        <p><strong><i class="fa-solid fa-phone"></i></strong> @SelectedDipendente.RecapitoDipendente</p>
+                    </div>
+                    <div class="col-4">
+                        <p><strong><i class="fa-solid fa-calendar-days"></i></strong> @SelectedDipendente.DataNascitaDipendente.ToShortDateString()</p>
+                        <p><strong><i class="fa-solid fa-building-user"></i></strong> @SelectedDipendente.LuogoDiLavoroSedeNavigation!.DescrizioneSede</p>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="d-flex">
+                            <p><strong>Mansioni: </strong></p>
+                            @foreach (var m in SelectedDipendente.Mansioni_Dipendenti!)
+                            {
+                                <p class="mx-2">@m.MansioniNavigation!.NomeMansione, </p>
+                            }
+                        </div>
+                        <div class="d-flex">
+                            @foreach (var sk in SelectedDipendente.Dipendenti_Skills!)
+                            {
+                            <p><strong>Hard skills:</strong></p>
+
+                                <ul>
+
+                                    @if (sk.SkillNavigation.TipoSkill == "Hard")
+                                    {
+                                        <li>@sk.SkillNavigation.DescrizioneSkill</li>
+                                    }
+                                </ul>
+
+                                <p><strong>Soft skills:</strong></p>
+                                <ul>
+
+                                    @if (sk.SkillNavigation.TipoSkill == "Soft")
+                                    {
+                                        <li>@sk.SkillNavigation.DescrizioneSkill</li>
+                                    }
+                                </ul>
+
+
+                            }
+                        </div>
+                        
+                    </div>
+                </div>
+            }
+        </BodyTemplate>
+    </Modal>
+}
+
 @code {
     [Parameter]
-    public List<Dipendenti> listaDipendente { get; set; } = null!;
+    public List<Dipendenti> listaDipendente { get; set; }
+
+    public List<Mansioni>? listaMansioni { get; set; }
+
+    public List<Skills>? listaSkills { get; set; }
 
     [Parameter]
     public EventCallback OnCrea { get; set; }
@@ -70,4 +165,24 @@
 
     [Parameter]
     public EventCallback<int> OnElimina { get; set; }
+
+    public Dipendenti? SelectedDipendente = new(); // Aggiungi il parametro per il dipendente selezionato
+
+    private Modal? modal;
+
+    private async Task OnShowModalClick(Dipendenti dipendente)
+    {
+        SelectedDipendente = dipendente;
+        SelectedDipendente.NomeCompleto = dipendente.NomeDipendente + " " + dipendente.CognomeDipendente;
+        await modal?.ShowAsync();
+    }
+
+    private async Task OnHideModalClick()
+    {
+        SelectedDipendente = null; // Azzera il dipendente selezionato quando si chiude la modale
+        await modal?.HideAsync();
+    }
+
+
 }
+

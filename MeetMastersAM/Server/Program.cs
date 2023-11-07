@@ -4,6 +4,7 @@ using MeetMastersAM.Server.Services;
 using MeetMastersAM.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddControllersWithViews()
     option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSyncfusionBlazor();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {

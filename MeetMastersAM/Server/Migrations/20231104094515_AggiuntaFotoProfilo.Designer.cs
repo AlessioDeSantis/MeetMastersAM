@@ -4,6 +4,7 @@ using MeetMastersAM.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeetMastersAM.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231104094515_AggiuntaFotoProfilo")]
+    partial class AggiuntaFotoProfilo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,15 +346,6 @@ namespace MeetMastersAM.Server.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ProfiloGithub")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfiloInstagram")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfiloLinkedin")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RecapitoDipendente")
                         .IsRequired()
